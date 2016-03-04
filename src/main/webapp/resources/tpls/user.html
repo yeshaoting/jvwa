@@ -1,0 +1,118 @@
+
+<div class="row" ng-controller="UserCtrl">
+
+  <div class="col-md-12">
+
+    <div class="filter-block">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="id" class="col-lg-3 control-label">id：</label>
+          <div class="col-lg-9">
+            <input ng-model="queryParams.id" type="text" class="form-control" id="id" placeholder="id" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="username" class="col-lg-4 control-label">用户名：</label>
+          <div class="col-lg-8">
+            <input ng-model="queryParams.username" type="text" class="form-control" id="username" placeholder="用户名" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="name" class="col-lg-4 control-label">姓名：</label>
+          <div class="col-lg-8">
+            <input ng-model="queryParams.name" type="text" class="form-control" id="name" placeholder="姓名" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="uuid" class="col-lg-4 control-label">唯一码：</label>
+          <div class="col-lg-8">
+            <input ng-model="queryParams.uuid" type="text" class="form-control" id="uuid" placeholder="唯一码" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-1">
+        <button ng-click="query()" class="btn btn-primary">查询</button>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="widget">
+
+      <div class="widget-head">
+        <div class="pull-left">用户列表</div>
+        <div class="widget-icons pull-right">
+          <button ng-click="openSaveDialog()" class="btn btn-primary">添加</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="widget-content">
+
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>id</th>
+              <th>用户名</th>
+              <th>密码</th>
+              <th>姓名</th>
+              <th>唯一码</th>
+              <th>状态</th>
+              <th>登录时间</th>
+              <th class="hidden-xs">创建时间</th>
+              <th class="hidden-xs">更新时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr ng-repeat="user in data.contents">
+              <td ng-bind="(data.page - 1) * data.size + $index + 1"></td>
+              <td ng-bind="user.id"></td>
+              <td ng-bind="user.username"></td>
+              <td ng-bind="user.password"></td>
+              <td ng-bind="user.name"></td>
+              <td ng-bind="user.uuid"></td>
+              <td><span class="label" ng-class="user.status ? 'label-success' : 'label-danger'" ng-bind="user.status ? '有效' : '无效'"></span></td>
+              <td class="hidden-xs"><span ng-if="user.loginTime > 0" ng-bind="user.loginTime | date:'yyyy-MM-dd HH:mm:ss'"></span></td>
+              <td class="hidden-xs" ng-bind="user.createTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+              <td class="hidden-xs" ng-bind="user.updateTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+              <td>
+                <button ng-click="openSaveDialog(user)" class="btn btn-xs btn-warning">
+                  <i class="icon-pencil"></i>
+                </button>
+                <button ng-click="changeStatus(user)" class="btn btn-xs" ng-class="user.status ? 'btn-danger' : 'btn-success'">
+                  <i ng-class="user.status ? 'icon-remove' : 'icon-ok'"></i>
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="widget-foot container-fluid">
+          <span class="pagination-info"> 分页信息: <span class="label label-default"> <span ng-bind="data.contents.length"></span> / <span
+              ng-bind="data.totalCount"></span>
+          </span>
+          </span>
+          <pagination class="pull-right" ng-change="pageChanged()" boundary-links="true" rotate="true" previous-text="上一页" next-text="下一页"
+            first-text="第一页" last-text="最后一页" total-items="data.totalCount" ng-model="currentPage" max-size="data.size" items-per-page="data.size"></pagination>
+          <div class="clearfix"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- .row -->
+
+</div>
+<!-- .col-md-12 -->

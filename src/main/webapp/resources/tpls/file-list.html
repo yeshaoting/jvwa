@@ -1,0 +1,69 @@
+
+<div class="row" ng-controller="FileCtrl">
+
+  <div class="col-md-12">
+
+    <div class="widget">
+
+      <div class="widget-head">
+        <div class="pull-left">文件列表</div>
+        <div class="widget-icons pull-right"></div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="widget-content">
+
+        <div class="overflow_x_scroll">
+          <table class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>id</th>
+                <th>名称</th>
+                <th>外链</th>
+                <th class="hidden">路径</th>
+                <th class="hidden">文件后缀</th>
+                <th>文件类型</th>
+                <th class="">文件大小</th>
+                <th class="hidden">创建时间</th>
+                <th class="">更新时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="file in data.contents">
+                <td ng-bind="(data.page - 1) * data.size + $index + 1"></td>
+                <td ng-bind="file.id"></td>
+                <td ng-bind="file.name"></td>
+                <td ng-init="url = (fileUrlPrefix + '/' + file.name | encodeURI)" title="{{url}}"><a ng-bind="url" ng-href="{{url}}"
+                  target="_blank"></a></td>
+                <td class="hidden" ng-bind="file.relativePath"></td>
+                <td class="hidden" ng-bind="file.suffix"></td>
+                <td ng-bind="file.contentType"></td>
+                <td ng-bind="(file.size/1024/1024 | number: 2) + 'MB'" title="{{file.size}}"></td>
+                <td class="hidden" ng-bind="file.createTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                <td class="hidden-xs" ng-bind="file.updateTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="widget-foot container-fluid">
+          <span class="pagination-info"> 分页信息: <span class="label label-default"> <span ng-bind="data.contents.length"></span> / <span
+              ng-bind="data.totalCount"></span>
+          </span>
+          </span>
+          <pagination class="pull-right" ng-change="pageChanged()" boundary-links="true" rotate="true" previous-text="上一页" next-text="下一页"
+            first-text="第一页" last-text="最后一页" total-items="data.totalCount" ng-model="currentPage" max-size="data.size" items-per-page="data.size"></pagination>
+          <div class="clearfix"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- .row -->
+
+</div>
+<!-- .col-md-12 -->

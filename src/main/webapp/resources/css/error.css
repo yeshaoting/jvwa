@@ -1,0 +1,32 @@
+body {
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+.wrong {
+	width: 450px;
+	height: 280px;
+	margin: 0 auto;
+	padding-top: 200px;
+}
+
+.wrong_title {
+	color: #dab564;
+	font-size: 40px;
+}
+
+.wrong_p {
+	padding-top: 20px;
+	font-size: 20px;
+}
+
+.wrong_p a {
+	color: #00a99d;
+}
+
+.hidden {
+	display: none;
+}

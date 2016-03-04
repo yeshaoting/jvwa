@@ -1,0 +1,142 @@
+
+<div class="row" ng-controller="ContentCtrl">
+
+  <div class="col-md-12">
+
+    <div class="filter-block">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="id" class="col-lg-3 control-label">id：</label>
+          <div class="col-lg-9">
+            <input ng-model="queryParams.id" type="text" class="form-control" id="id" placeholder="id" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="name" class="col-lg-4 control-label">名称：</label>
+          <div class="col-lg-8">
+            <input ng-model="queryParams.name" type="text" class="form-control" id="name" placeholder="名称" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="input-group">
+          <ui-select allow-clear ng-model="queryParams.nodeType" theme="bootstrap"> <ui-select-match placeholder="请选择应用类型...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="nodeType.type as nodeType in nodeTypes | filter: $select.search">
+          <div ng-bind-html="nodeType.name | highlight: $select.search"></div>
+          </ui-select-choices> </ui-select>
+          <span class="input-group-btn">
+            <button ng-click="queryParams.nodeType = undefined" class="btn btn-default">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="input-group">
+          <ui-select allow-clear ng-model="queryParams.linkType" theme="bootstrap"> <ui-select-match placeholder="请选择链接类型...">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="linkType.type as linkType in linkTypes | filter: $select.search">
+          <div ng-bind-html="linkType.name | highlight: $select.search"></div>
+          </ui-select-choices> </ui-select>
+          <span class="input-group-btn">
+            <button ng-click="queryParams.linkType = undefined" class="btn btn-default">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-1">
+        <button ng-click="query()" class="btn btn-primary">查询</button>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="widget">
+
+      <div class="widget-head">
+        <div class="pull-left">内容列表</div>
+        <div class="widget-icons pull-right">
+          <button ng-click="openSaveDialog()" class="btn btn-primary">添加</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="widget-content">
+
+        <div class="overflow_x_scroll">
+          <table class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>id</th>
+                <th>名称</th>
+                <th>链接类型</th>
+                <th>链接内容</th>
+                <th>链接父级编号</th>
+                <th>视频播放量</th>
+                <th class="hidden-xs">图片预览</th>
+                <th>应用类型</th>
+                <th>展示顺序</th>
+                <th>状态</th>
+                <th class="hidden">创建时间</th>
+                <th class="hidden-xs">更新时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="content in data.contents">
+                <td ng-bind="(data.page - 1) * data.size + $index + 1"></td>
+                <td ng-bind="content.id"></td>
+                <td ng-bind="content.name"></td>
+                <td ng-bind="content.linkType | showLinkTypeName" title="{{content.linkType}}"></td>
+                <td title="{{content.linkValue}}"><a ng-if="content.linkType == 'LINK'" ng-href="{{content.linkValue}}"
+                  ng-bind="content.linkValue" target="_blank"></a> <span ng-if="content.linkType != 'LINK'" ng-bind="content.linkValue"></span></td>
+                <td ng-bind="content.linkParentId == 0 ? '' : content.linkParentId"></td>
+                <td ng-bind="content.vv"></td>
+                <td class="hidden-xs"><span ng-if="content.image"> <a ng-href="{{content.image}}" target="_blank"><img
+                      ng-src="{{content.image}}" width="48" height="48" /></a>
+                </span></td>
+                <td ng-bind="content.nodeType | showNodeTypeName"></td>
+                <td ng-bind="content.rank"></td>
+                <td><span class="label" ng-class="content.status ? 'label-success' : 'label-danger'" ng-bind="content.status ? '有效' : '无效'"></span></td>
+                <td class="hidden" ng-bind="content.createTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                <td class="hidden-xs" ng-bind="content.updateTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                <td>
+                  <button ng-click="openSaveDialog(content)" class="btn btn-xs btn-warning">
+                    <i class="icon-pencil"></i>
+                  </button>
+                  <button ng-click="changeStatus(content)" class="btn btn-xs" ng-class="content.status ? 'btn-danger' : 'btn-success'">
+                    <i ng-class="content.status ? 'icon-remove' : 'icon-ok'"></i>
+                  </button>
+                  <button ng-if="isSuperAdmin" ng-click="forceDel(content)" class="btn btn-xs btn-danger">
+                    <i class="icon-trash"></i> 强删
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="widget-foot container-fluid">
+          <span class="pagination-info"> 分页信息: <span class="label label-default"> <span ng-bind="data.contents.length"></span> / <span
+              ng-bind="data.totalCount"></span>
+          </span>
+          </span>
+          <pagination class="pull-right" ng-change="pageChanged()" boundary-links="true" rotate="true" previous-text="上一页" next-text="下一页"
+            first-text="第一页" last-text="最后一页" total-items="data.totalCount" ng-model="currentPage" max-size="data.size" items-per-page="data.size"></pagination>
+          <div class="clearfix"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- .row -->
+
+</div>
+<!-- .col-md-12 -->

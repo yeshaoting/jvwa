@@ -1,0 +1,105 @@
+
+<div class="col-md-12">
+
+  <div class="widget wgreen">
+
+    <div class="widget-head">
+      <div class="pull-left" ng-bind="moduleParams.id == null ? '添加模块' : '编辑模块'"></div>
+      <div class="widget-icons pull-right">
+        <a ng-click="close()" href="javascript:void(0);" class="wclose"><i class="icon-remove"></i></a>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="widget-content">
+      <div class="padd">
+
+        <!-- <h6>Input Boxs</h6>
+        <hr> -->
+        <!-- Form starts.  -->
+        <form class="form-horizontal" role="form">
+          <div ng-if="moduleParams.id != null" class="form-group">
+            <label for="ID" class="col-lg-3 control-label">ID：</label>
+            <div class="col-lg-8">
+              <p ng-model="moduleParams.id" ng-bind="moduleParams.id" class="form-control-static" id="ID"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="name" class="col-lg-3 control-label">名称：</label>
+            <div class="col-lg-8">
+              <input ng-model="moduleParams.name" type="text" class="form-control" id="name" placeholder="名称" />
+            </div>
+          </div> <!-- <div class="form-group">
+            <label for="type" class="col-lg-3 control-label">模块类型：</label>
+            <div class="col-lg-8">
+              <input ng-model="moduleParams.type" type="text" class="form-control" id="type" placeholder="模块类型" />
+              <ui-select ng-model="moduleParams.type"> <ui-select-match placeholder="请选择模块类型...">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices repeat="moduleType.type as moduleType in moduleTypes | filter: $select.search">
+              <div ng-bind-html="moduleType.name | highlight: $select.search"></div>
+              </ui-select-choices> </ui-select>
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <label for="templateType" class="col-lg-3 control-label">模版类型：</label>
+            <div class="col-lg-8">
+              <!--  <input ng-model="moduleParams.templateType" class="form-control" id="templateType" placeholder="模版类型" /> -->
+              <ui-select ng-model="moduleParams.templateType" ng-disabled="moduleParams.id != null ? true : false"> <ui-select-match
+                placeholder="请选择模版类型...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+                repeat="templateType.type as templateType in templateTypes | filter: $select.search">
+              <div ng-bind-html="templateType.name | highlight: $select.search"></div>
+              </ui-select-choices> </ui-select>
+            </div>
+          </div>
+
+          <div ng-if="moduleParams.templateType == 'brand_section'" class="form-group">
+            <label for="image" class="col-lg-3 control-label">展示图片：</label>
+            <div class="col-lg-8">
+              <input ng-model="moduleParams.image" type="text" class="form-control" id="image" placeholder="展示图片" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nodeType" class="col-lg-3 control-label">应用类型：</label>
+            <div class="col-lg-8">
+              <ui-select ng-model="moduleParams.nodeType"> <ui-select-match placeholder="请选择是否应用类型...">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices repeat="nodeType.type as nodeType in nodeTypes | filter: $select.search">
+              <div ng-bind-html="nodeType.name | highlight: $select.search"></div>
+              </ui-select-choices> </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="rank" class="col-lg-3 control-label">展示顺序：</label>
+            <div class="col-lg-8">
+              <input ng-model="moduleParams.rank" type="text" class="form-control" id="rank" placeholder="展示顺序" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="status" class="col-lg-3 control-label">启用状态：</label>
+            <div class="col-lg-8">
+              <ui-select ng-model="moduleParams.status"> <ui-select-match placeholder="请选择模块状态...">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices repeat="status.value as status in statuses | filter: $select.search">
+              <div ng-bind-html="status.name | highlight: $select.search"></div>
+              </ui-select-choices> </ui-select>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!-- <div class="widget-foot">
+      Footer goes here
+    </div> -->
+
+    <div class="modal-footer">
+      <button class="btn btn-danger" ng-click="cancel()">取消</button>
+      <button class="btn btn-primary" ng-click="save()">确定</button>
+    </div>
+
+  </div>
+
+</div>
+
