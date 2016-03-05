@@ -1,4 +1,6 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%-- <%@ page language="java" pageEncoding="UTF-8"%> --%>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- navbar starts -->
 <div class="navbar navbar-fixed-top bs-docs-nav" role="banner">

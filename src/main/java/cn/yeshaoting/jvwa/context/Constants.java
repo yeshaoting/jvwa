@@ -1,4 +1,4 @@
-package com.sohu.pvrs.school.context;
+package cn.yeshaoting.jvwa.context;
 
 import org.apache.commons.io.Charsets;
 

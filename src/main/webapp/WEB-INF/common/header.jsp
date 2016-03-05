@@ -10,9 +10,9 @@
       <!-- Logo. -->
       <div class="logo">
         <h1>
-          <a href="#">FUN学堂<span class="bold"></span></a>
+          <a href="#">JVWA<span class="bold"></span></a>
         </h1>
-        <p class="meta">后台管理系统</p>
+        <p class="meta">Java Vulnerable Web Application</p>
       </div>
       <!-- Logo ends -->
     </div>

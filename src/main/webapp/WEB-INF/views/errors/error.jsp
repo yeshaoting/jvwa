@@ -8,7 +8,7 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>FUN学堂-服务器异常</title>
+<title>JVWA-服务器异常</title>
 <link rel="stylesheet" type="text/css" href="${styles_path}/error.css?version=${resources_version}">
 </head>
 <body>

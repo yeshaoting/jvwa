@@ -79,25 +79,9 @@ window.myCustomTags = [ 'yourCustomDirective', 'somebodyElsesDirective' ]; // op
 <script type="text/javascript" src="${scripts_path}/bootbox/bootbox.js?version=${resources_version}"></script>
 
 <!-- custom -->
-
-<script type="text/javascript" src="${scripts_path}/config.router.js?version=${resources_version}"></script>
+<script type="text/javascript" src="${scripts_path}/app.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/main-ctrl.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/stage-ctrl.js?version=${resources_version}"></script>
-
-<%-- 
-<script type="text/javascript" src="${scripts_path}/user-service.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/user-ctrl.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/module-service.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/module-ctrl.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/content-service.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/content-ctrl.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/module-content-service.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/module-content-ctrl.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/file-upload.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/file-service.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/file-ctrl.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/changelog-service.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/changelog-ctrl.js?version=${resources_version}"></script> --%>
+<script type="text/javascript" src="${scripts_path}/admin-ctrl.js?version=${resources_version}"></script>
 
 <!-- custom utils -->
 <script type="text/javascript" src="${scripts_path}/notify.js?version=${resources_version}"></script>
@@ -116,7 +100,9 @@ window.myCustomTags = [ 'yourCustomDirective', 'somebodyElsesDirective' ]; // op
 
     <!-- Matter -->
     <div class="matter">
-      <div class="container" ui-view></div>
+      <div class="container">
+        <%@ include file="/WEB-INF/views/sohu/admin-content.jsp"%>
+      </div>
     </div>
     <!-- Matter ends -->
 
