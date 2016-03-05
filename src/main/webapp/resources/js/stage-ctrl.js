@@ -1,14 +1,13 @@
 /**
  * stage controller
  */
-app.controller("Stage1Ctrl", Stage1Ctrl);
-app.controller("Stage1Ctrl", Stage1Ctrl);
+app.controller("StageCtrl", StageCtrl);
 
-var SUCCESS_MESSAGE = "恭喜你闯关成功! (*^ω^*)";
+var SUCCESS_MESSAGE = "恭喜你，闯关成功啦! (*^ω^*)";
 
-function Stage1Ctrl($http, $scope, $rootScope, $http, $log, $state) {
+function StageCtrl($http, $scope, $rootScope, $http, $log, $state) {
 
-	$scope.submit = function() {
+	$scope.login = function() {
 		// var username = "stage1_user";
 		// var password = "tHis1Is3aSim3p#ab$";
 		var username = "yeshaoting";
@@ -22,10 +21,8 @@ function Stage1Ctrl($http, $scope, $rootScope, $http, $log, $state) {
 		}
 	}
 
-}
-
-function Stage2Ctrl($http, $scope, $rootScope, $http, $log, $state) {
-	$scope.submit = function() {
+	
+	$scope.login2 = function() {
 		var params = {
 			username : $scope.username,
 			password : $scope.password
@@ -47,4 +44,70 @@ function Stage2Ctrl($http, $scope, $rootScope, $http, $log, $state) {
 			Notify.error(response.data.statusText);
 		});
 	}
+	
+	
+	$scope.phone = "13800138000";
+	$scope.sendSmsCode = function() {
+		$http({
+			method : 'POST',
+			url : Constants.server_url + '/sohu/sms/code/send?phone=' + $scope.phone
+		}).then(function successCallback(response) {
+			if (response.data.status != 200) {
+				Notify.error(response.data.statusText);
+				return;
+			}
+			
+			alert("新的3位数字验证码已经通过短信，发送到" + $scope.phone + "的手机上，请注意查收！");
+		}, function errorCallback(response) {
+			Notify.error(response.data.statusText);
+		});
+		
+	}
+	
+	$scope.verfiySmsCode = function() {
+		if (!$scope.code) {
+			Notify.error("请输入短信验证码！");
+			return;
+		}
+		
+		var params = {
+			phone: $scope.phone,
+			code: $scope.code
+		}
+		$http({
+			method : 'POST',
+			url : Constants.server_url + '/sohu/sms/code/verfiy?' + $.param(params, true)
+		}).then(function successCallback(response) {
+			if (response.data.status != 200) {
+				Notify.error(response.data.statusText);
+				return;
+			}
+			
+			alert(SUCCESS_MESSAGE);
+			$state.go("stage6");
+		}, function errorCallback(response) {
+			Notify.error(response.data.statusText);
+		});
+		
+	}
+	
+	//$scope.image_url = Constants.resources_path + '/img/image.jpg';
+	$scope.image_url = Constants.server_url + '/sohu/stage6.jsp?file=image.jpg';
+	$scope.checkCode = function() {
+		$http({
+			method : 'POST',
+			url : Constants.server_url + '/sohu/checkCode?code=' + $scope.code
+		}).then(function successCallback(response) {
+			if (response.data.status != 200) {
+				Notify.error(response.data.statusText);
+				return;
+			}
+			
+			alert(SUCCESS_MESSAGE);
+			$state.go("stage7");
+		}, function errorCallback(response) {
+			Notify.error(response.data.statusText);
+		});
+	}
 }
+

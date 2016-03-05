@@ -1,6 +1,6 @@
 
-<div class="row" ng-controller="Stage2Ctrl">
-  <div class="col-md-6">
+<div class="row">
+  <div class="col-md-6" ng-controller="StageCtrl">
 
     <!-- Widget -->
     <div class="widget">
@@ -42,11 +42,15 @@
 
           </div>
         </div>
+        
+        <div class="widget-foot">
+          <div class="pull-right">
+            <button class="btn btn-primary" ng-click="login2()">提交</button>
+          </div>
+          <div class="clearfix"></div>
+        </div>
       </div><!-- widget-content -->
 
-      <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="submit()">提交</button>
-      </div>
     </div>
   </div>
   <!-- .col-md-12 -->

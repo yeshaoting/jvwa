@@ -1,5 +1,5 @@
 
-<div class="row" ng-controller="Stage1Ctrl">
+<div class="row" ng-controller="StageCtrl">
   <div class="col-md-6">
 
     <!-- Widget -->
@@ -19,8 +19,8 @@
           <!-- Contact box -->
           <div class="stage-content">
             <p>
-            <h4>任务目标：找出正确的用户名与密码并通过验证。</h4>
-            <h4>Tips：这个页面用户与密码不需要去服务器交互验证。</h4>
+              <h4>任务目标：找出正确的用户名与密码并通过验证。</h4>
+              <h4>Tips：这个页面用户与密码不需要去服务器交互验证。</h4>
             </p>
             <hr />
             <p>
@@ -42,12 +42,17 @@
 
           </div>
         </div>
+        
+        <div class="widget-foot">
+          <div class="pull-right">
+            <button class="btn btn-primary" ng-click="login()">提交</button>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        
       </div>
       <!-- widget-content -->
 
-      <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="submit()">提交</button>
-      </div>
     </div>
   </div>
   <!-- .col-md-12 -->

@@ -80,6 +80,7 @@ window.myCustomTags = [ 'yourCustomDirective', 'somebodyElsesDirective' ]; // op
 
 <!-- custom -->
 <script type="text/javascript" src="${scripts_path}/app.js?version=${resources_version}"></script>
+<script type="text/javascript" src="${scripts_path}/config.router.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/main-ctrl.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/admin-ctrl.js?version=${resources_version}"></script>
 

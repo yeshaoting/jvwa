@@ -65,7 +65,7 @@
               <td>yeshaoting@163.com</td>
               <td>3</td>
               <td>
-                <a href="#upgrade" title="升级" ng-click="upgrade()">升级</a> |
+                <a href="" title="升级" ng-click="upgrade()">升级</a> |
                 <a href="#reset" title="重置比分">重置比分</a> |
                 <a href="#forbid" title="禁用账号">禁用账号</a>
               </td>
@@ -108,7 +108,7 @@
             </tr>
           </table>
 
-          <div class="widget-foot"></div>
+          <div class="widget-foot">&nbsp;&nbsp;</div>
         </div>
       </div>
       <!-- widget-content -->

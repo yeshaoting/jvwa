@@ -79,7 +79,7 @@ window.myCustomTags = [ 'yourCustomDirective', 'somebodyElsesDirective' ]; // op
 <script type="text/javascript" src="${scripts_path}/bootbox/bootbox.js?version=${resources_version}"></script>
 
 <!-- custom -->
-
+<script type="text/javascript" src="${scripts_path}/app.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/config.router.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/main-ctrl.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/stage-ctrl.js?version=${resources_version}"></script>
