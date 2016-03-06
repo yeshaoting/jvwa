@@ -27,9 +27,15 @@
           </div>
         </div>
         
-        <div class="widget-foot" ng-if="user.stage < maxStage">
+        <div class="widget-foot" ng-if="user.stage < max_stage">
           <div class="pull-right">
             <button class="btn btn-primary" ng-click="nextStage()">下一关卡</button>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="widget-foot" ng-if="user.stage >= max_stage">
+          <div class="pull-right">
+            哇，偶像你完成了所有关卡！
           </div>
           <div class="clearfix"></div>
         </div>

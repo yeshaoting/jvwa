@@ -7,6 +7,8 @@ var SUCCESS_MESSAGE = "恭喜你，闯关成功啦! (*^ω^*)";
 
 function MainCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 
+	$scope.max_stage = Constants.max_stage;
+	
 	$timeout(function() {
 		$http({
 			method : 'GET',

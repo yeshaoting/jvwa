@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -68,8 +69,9 @@ public class SohuController {
     private static final Map<Integer, Integer> stage4GoodsMap = Maps.newHashMap();
     private static final int stage4DefaultMoney = 20000;
     
-    private static final int maxStage = 7;
-
+    @Value("${max_stage}")
+    private int MAX_STAGE;
+    
     @Resource
     private JdbcTemplate jdbcTemplate;
 
@@ -90,11 +92,11 @@ public class SohuController {
 
     @RequestMapping(value = "stage/{id}")
     public String index(@PathVariable(value = "id") int id, Model model) {
-        if (id <= 0 || id > maxStage) {
+        if (id <= 0 || id > MAX_STAGE) {
             return "sohu/dashboard";
         }
         
-        boolean debug = false;
+        boolean debug = true;
         User user = ThreadLocalUtil.CACHE.get();
         if (!debug && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
@@ -251,14 +253,15 @@ public class SohuController {
 
     @StageValidation(current = 6)
     @ResponseBody
-    @RequestMapping(value = "checkCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
-    public Response checkCode(@RequestParam(value = "code", required = true) String code) {
+    @RequestMapping(value = "checkSecureCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    public Response checkSecureCode(@RequestParam(value = "code", required = true) String code) {
         logger.info("requesting code: {}", code);
 
         if (!StringUtils.equals(code, STAGE6_CODE)) {
             return Response.build(HttpStatus.BAD_REQUEST, "密码不正确！");
         }
 
+        upgrade(6);
         return Response.build(HttpStatus.OK);
     }
 
@@ -277,7 +280,7 @@ public class SohuController {
      * @param mobile
      * @return 校验通过返回true，否则返回false
      */
-    public static boolean isMobile(String mobile) {
+    private static boolean isMobile(String mobile) {
         return Pattern.matches(REGEX_MOBILE, mobile);
     }
 

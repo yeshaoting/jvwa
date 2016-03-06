@@ -5,7 +5,7 @@ app.controller("StageCtrl", StageCtrl);
 
 function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 
-	$scope.maxStage = 10;
+	$scope.maxStage = Constants.max_stage;
 	
 	$scope.nextStage = function() {
 		var nextStage = $scope.user.stage + 1;
@@ -156,7 +156,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	$scope.checkSecureCode = function() {
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/checkCode?code=' + $scope.secureCode
+			url : Constants.server_url + '/sohu/checkSecureCode?code=' + $scope.secureCode
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error(response.data.statusText);

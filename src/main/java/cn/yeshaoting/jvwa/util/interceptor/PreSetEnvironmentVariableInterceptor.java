@@ -34,6 +34,9 @@ public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor 
   @Value("${resources_version}")
   private String RESOURCES_VERSION;
   
+  @Value("${max_stage}")
+  private int MAX_STAGE;
+  
   
   private void init(HttpServletRequest request) {
     request.setAttribute("base_url", BASE_URL);
@@ -45,6 +48,8 @@ public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor 
     request.setAttribute("styles_path", STYLES_PATH);
     request.setAttribute("images_path", IMAGES_PATH);
     request.setAttribute("resources_version", RESOURCES_VERSION);
+    
+    request.setAttribute("max_stage", MAX_STAGE);
   }
   
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

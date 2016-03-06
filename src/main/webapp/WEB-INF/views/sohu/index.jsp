@@ -18,6 +18,7 @@
     index_url : "${index_url}",
     resources_path : "${resources_path}",
     resources_version : "${resources_version}",
+    max_stage: "${max_stage}",
   };
 </script>
 
