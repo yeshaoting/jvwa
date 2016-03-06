@@ -27,9 +27,9 @@
             <img title="这个页面暗藏玄机" ng-src="{{image_url}}" width="300" />
             <form class="form-horizontal" role="form">
               <div class="form-group">
-                <label for="code" class="col-lg-3 control-label">密码：</label>
+                <label for="secureCode" class="col-lg-3 control-label">密码：</label>
                 <div class="col-lg-8">
-                  <input ng-model="code" type="text" class="form-control" id="code" placeholder="密码">
+                  <input ng-model="secureCode" type="text" class="form-control" id="secureCode" placeholder="密码">
                 </div>
               </div>
             </form>
@@ -40,7 +40,7 @@
         
         <div class="widget-foot">
           <div class="pull-right">
-            <button class="btn btn-primary" ng-click="checkCode()">提交</button>
+            <button class="btn btn-primary" ng-click="checkSecureCode()">提交</button>
           </div>
           <div class="clearfix"></div>
         </div>

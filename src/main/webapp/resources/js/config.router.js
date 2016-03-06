@@ -22,7 +22,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('dashboard', {
     url : '/dashboard',
-    template : '<div ui-view class="fade-in-up"></div>',
+    //template : '<div ui-view class="fade-in-up"></div>',
+    templateUrl : Constants.resources_path + '/tpls/sohu/dashboard.html?version=' + Constants.resources_version,
   });
 
   $stateProvider.state('stage1', {

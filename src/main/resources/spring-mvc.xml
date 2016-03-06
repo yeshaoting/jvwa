@@ -34,14 +34,14 @@
   </mvc:annotation-driven>
 
   <mvc:interceptors>
-    <!-- <mvc:interceptor>
-      <mvc:mapping path="/*" />
-      <mvc:mapping path="/module/**" />
-      <mvc:mapping path="/content/**" />
-      <mvc:mapping path="/module/content/**" />
-      <mvc:mapping path="/file/**" />
-      <bean class="com.sohu.pvrs.school.interceptor.LoginInterceptor" />
-    </mvc:interceptor> -->
+    <mvc:interceptor>
+      <mvc:mapping path="/**" />
+      <bean class="cn.yeshaoting.jvwa.util.interceptor.AccessInterceptor" />
+    </mvc:interceptor>
+    <mvc:interceptor>
+      <mvc:mapping path="/**" />
+      <bean class="cn.yeshaoting.jvwa.util.interceptor.StageInterceptor" />
+    </mvc:interceptor>
     <mvc:interceptor>
       <mvc:mapping path="/**" />
       <mvc:exclude-mapping path="/resources/**" />

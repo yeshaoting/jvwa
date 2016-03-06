@@ -5,27 +5,64 @@ app.controller("StageCtrl", StageCtrl);
 
 var SUCCESS_MESSAGE = "恭喜你，闯关成功啦! (*^ω^*)";
 
-function StageCtrl($http, $scope, $rootScope, $http, $log, $state) {
+function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 
-	$scope.login = function() {
-		// var username = "stage1_user";
-		// var password = "tHis1Is3aSim3p#ab$";
-		var username = "yeshaoting";
-		var password = "yeshaoting";
+	$scope.maxStage = 10;
+	
+	$timeout(function() {
+      $http({
+        method : 'GET',
+        url : Constants.server_url + '/user/info',
+      }).success(function(text, status, headers, config) {
+        if (text.status != 200) {
+          Notify.error(text.statusText);
+          return;
+        }
 
-		if (username == $scope.username && password == $scope.password) {
-			alert(SUCCESS_MESSAGE);
-			$state.go("stage2");
+        $scope.user = text.data;
+      }); // $http
+
+    });// $timeout
+	
+	
+
+	$scope.nextStage = function() {
+		var nextStage = $scope.user.stage + 1;
+		$state.go("stage" + nextStage);
+	}
+	
+	$scope.stage1Submit = function() {
+		// var stage1Username = "stage1_user";
+		// var state1Password = "tHis1Is3aSim3p#ab$";
+		var stage1Username = "yeshaoting";
+		var state1Password = "yeshaoting";
+
+		if (stage1Username == $scope.stage1Username && state1Password == $scope.state1Password) {
+			$http({
+				method : 'POST',
+				url : Constants.server_url + '/sohu/stage1/pass'
+			}).then(function successCallback(response) {
+				if (response.data.status != 200) {
+					console.log(response.data.statusText);
+					Notify.error(response.data.statusText);
+					return;
+				}
+				
+				alert(SUCCESS_MESSAGE);
+				$state.go("stage2");
+			}, function errorCallback(response) {
+				Notify.error(response.data.statusText);
+			});
 		} else {
 			Notify.error("用户名或密码错误，请重试！");
 		}
 	}
 
 	
-	$scope.login2 = function() {
+	$scope.stage2Submit = function() {
 		var params = {
-			username : $scope.username,
-			password : $scope.password
+			username : $scope.stage2Username,
+			password : $scope.state2Password
 		};
 		
 		$http({
@@ -65,14 +102,14 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state) {
 	}
 	
 	$scope.verfiySmsCode = function() {
-		if (!$scope.code) {
+		if (!$scope.smsCode) {
 			Notify.error("请输入短信验证码！");
 			return;
 		}
 		
 		var params = {
 			phone: $scope.phone,
-			code: $scope.code
+			code: $scope.smsCode
 		}
 		$http({
 			method : 'POST',
@@ -93,10 +130,10 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state) {
 	
 	//$scope.image_url = Constants.resources_path + '/img/image.jpg';
 	$scope.image_url = Constants.server_url + '/sohu/stage6.jsp?file=image.jpg';
-	$scope.checkCode = function() {
+	$scope.checkSecureCode = function() {
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/checkCode?code=' + $scope.code
+			url : Constants.server_url + '/sohu/checkCode?code=' + $scope.secureCode
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error(response.data.statusText);

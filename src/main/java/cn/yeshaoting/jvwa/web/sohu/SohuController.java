@@ -11,11 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.yeshaoting.jvwa.entity.User;
+import cn.yeshaoting.jvwa.mapper.UserMapper;
+import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
+import cn.yeshaoting.jvwa.util.interceptor.LoginRequired;
+import cn.yeshaoting.jvwa.util.interceptor.StageValidation;
 import cn.yeshaoting.jvwa.vo.Response;
 
 /**
@@ -26,11 +32,12 @@ import cn.yeshaoting.jvwa.vo.Response;
 @Controller
 @RequestMapping("sohu")
 @SuppressWarnings("rawtypes")
+@LoginRequired
 public class SohuController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String LOGIN_SQL_FORMAT = "select count(id) from user where username = '%s' and password = '%s'";
+    private static final String LOGIN_SQL_FORMAT = "select count(id) from user2 where username = '%s' and password = '%s'";
     
     /**
      * 禁止登录的用户名
@@ -51,17 +58,29 @@ public class SohuController {
 
     @Resource
     private JdbcTemplate jdbcTemplate;
+    
+    @Resource
+    private UserMapper userMapper;
 
     @RequestMapping(value = { "", "index" })
-    public String index() {
+    public String index(Model model) {
         return "sohu/index";
     }
 
-    @RequestMapping(value = { "admin", "admin/index" })
-    public String admin() {
-        return "sohu/admin";
+    @StageValidation(current = 1)
+    @ResponseBody
+    @RequestMapping(value = "stage1/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    public Response passStage1() {
+        User user = ThreadLocalUtil.CACHE.get();
+        if (user.getStage() == 0) {
+            user.setStage(1);
+            userMapper.replace(user);
+        }
+        
+        return Response.build(HttpStatus.OK);
     }
 
+    @StageValidation(current = 2)
     @ResponseBody
     @RequestMapping(value = "stage2", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response stage2(@RequestParam(value = "username", required = true) String username,
@@ -90,8 +109,14 @@ public class SohuController {
         }
 
     }
-
     
+    @StageValidation(current = 3)
+    @RequestMapping(value = { "admin", "admin/index" })
+    public String admin() {
+        return "sohu/admin";
+    }
+
+    @StageValidation(current = 5)
     @ResponseBody
     @RequestMapping(value = "sms/code/verfiy", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response verfiySmsCode(@RequestParam(value = "phone", required = true) String phone,
@@ -114,6 +139,7 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
 
+    @StageValidation(current = 5)
     @ResponseBody
     @RequestMapping(value = "sms/code/send", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response sendSmsCode(@RequestParam(value = "phone", required = true) String phone) {
@@ -134,6 +160,7 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
     
+    @StageValidation(current = 6)
     @ResponseBody
     @RequestMapping(value = "checkCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response checkCode(@RequestParam(value = "code", required = true) String code) {

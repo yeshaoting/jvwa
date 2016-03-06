@@ -56,8 +56,13 @@ public class HandlerExceptionResolverExt implements HandlerExceptionResolver {
         return new ModelAndView("errors/500");
       }
       
+      String message = "系统内部错误！";
+      if (ex instanceof IllegalArgumentException) {
+          message = ex.getMessage();
+      }
+      
       // 接口请求异常处理
-      Response<Object> vo = Response.build(HttpStatus.INTERNAL_SERVER_ERROR, "系统内部错误！");
+      Response<Object> vo = Response.build(HttpStatus.INTERNAL_SERVER_ERROR, message);
       request.setAttribute("response", JSON.toJSONString(vo));
       return new ModelAndView("errors/json");
       

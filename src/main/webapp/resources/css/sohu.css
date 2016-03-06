@@ -1,4 +1,16 @@
 
+// Mixin
+.center-block() {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Usage
+.container {
+  width: 1000px;
+  .center-block();
+}
 
 .matter {
   max-width: 500px;

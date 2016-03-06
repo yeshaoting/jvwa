@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-<title>FUN学堂-后台登录</title>
+<title>JVWA</title>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="keywords" content="FUN学堂" />
-<meta name="description" content="FUN学堂-后台管理系统" />
+<meta name="keywords" content="JVWA" />
+<meta name="description" content="Java Vulnerable Web Application" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script type="text/javascript">
@@ -68,7 +68,7 @@
             <div class="widget worange">
               <!-- Widget head -->
               <div class="widget-head">
-                <i class="icon-lock"></i> 后台登录
+                <i class="icon-lock"></i> 用户登记
               </div>
 
               <div class="widget-content">
@@ -82,31 +82,13 @@
                     </div>
                   </div>
 
-                  <!-- Password -->
-                  <div class="form-group">
-                    <label class="control-label col-lg-3" for="Password">密码：</label>
-                    <div class="col-lg-8">
-                      <input type="password" class="form-control" id="password" name="password" placeholder="密码" value="${not empty user ? user.password : '' }">
-                    </div>
-                  </div>
-
-                  <!-- Remember me checkbox and sign in button -->
-                  <div class="form-group">
-                    <div class="col-lg-8 col-lg-offset-3">
-                      <div class="checkbox">
-                        <label class="isRemember-label"> <input type="checkbox" id="isRemember" name="isRemember" ${not empty user and not empty user.remember and user.remember ? 'checked' : '' } /> 下次自动登录
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
 
               <div class="widget-foot">
                 <!-- action -->
                 <div class="pull-right">
-                  <button id="login" class="btn btn-danger">登录</button>
+                  <button id="login" class="btn btn-primary">登记</button>
                   <button type="reset" class="btn btn-default">重置</button>
                 </div>
                 <div class="clearfix"></div>

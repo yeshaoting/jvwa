@@ -24,22 +24,5 @@
     </div>
   </div>
 
-  <div class="hidden">
-    <h3>
-      错误码：
-      <%=request.getAttribute("javax.servlet.error.status_code")%>
-    </h3>
-    <h3>异常类型：</h3><%=request.getAttribute("javax.servlet.error.exception_type")%>
-    <br>
-    <h3>异常信息：</h3><%=request.getAttribute("javax.servlet.error.message")%>
-    <br>
-    <h3>堆栈信息：</h3>
-    <%
-      if (exception != null) {
-        exception.printStackTrace(new java.io.PrintWriter(out));
-      }
-    %>
-  </div>
-
 </body>
 </html>
