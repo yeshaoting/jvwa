@@ -24,7 +24,6 @@ import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.mapper.UserMapper;
 import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
 import cn.yeshaoting.jvwa.util.interceptor.LoginRequired;
-import cn.yeshaoting.jvwa.util.interceptor.StageValidation;
 import cn.yeshaoting.jvwa.vo.Response;
 
 /**
@@ -58,6 +57,8 @@ public class SohuController {
     private static int SMS_CODE = RandomUtils.nextInt(100, 999);
 
     private static final String STAGE6_CODE = "sATa3HGe6";
+    
+    private static int maxStage = 7;
 
     @Resource
     private JdbcTemplate jdbcTemplate;
@@ -72,10 +73,10 @@ public class SohuController {
 
     @RequestMapping(value = "stage/{id}")
     public String index(@PathVariable(value = "id") int id, Model model) {
-        if (id <= 0) {
+        if (id <= 0 || id > maxStage) {
             return "sohu/dashboard";
         }
-
+        
         boolean debug = true;
         User user = ThreadLocalUtil.CACHE.get();
         if (!debug && user.getStage() + 1 < id) {
@@ -88,7 +89,6 @@ public class SohuController {
         return "sohu/stage" + id;
     }
 
-    @StageValidation(current = 1)
     @ResponseBody
     @RequestMapping(value = "stage1/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response passStage1() {
@@ -100,8 +100,7 @@ public class SohuController {
 
         return Response.build(HttpStatus.OK);
     }
-
-    @StageValidation(current = 2)
+    
     @ResponseBody
     @RequestMapping(value = "stage2", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response stage2(@RequestParam(value = "username", required = true) String username,
@@ -131,13 +130,11 @@ public class SohuController {
 
     }
 
-    @StageValidation(current = 3)
     @RequestMapping(value = { "admin", "admin/index" })
     public String admin() {
         return "sohu/admin";
     }
 
-    @StageValidation(current = 5)
     @ResponseBody
     @RequestMapping(value = "sms/code/verfiy", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response verfiySmsCode(@RequestParam(value = "phone", required = true) String phone,
@@ -160,7 +157,6 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
 
-    @StageValidation(current = 5)
     @ResponseBody
     @RequestMapping(value = "sms/code/send", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response sendSmsCode(@RequestParam(value = "phone", required = true) String phone) {
@@ -181,7 +177,6 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
 
-    @StageValidation(current = 6)
     @ResponseBody
     @RequestMapping(value = "checkCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response checkCode(@RequestParam(value = "code", required = true) String code) {

@@ -40,10 +40,6 @@
     </mvc:interceptor>
     <mvc:interceptor>
       <mvc:mapping path="/**" />
-      <bean class="cn.yeshaoting.jvwa.util.interceptor.StageInterceptor" />
-    </mvc:interceptor>
-    <mvc:interceptor>
-      <mvc:mapping path="/**" />
       <mvc:exclude-mapping path="/resources/**" />
       <bean class="cn.yeshaoting.jvwa.util.interceptor.PreSetEnvironmentVariableInterceptor" />
     </mvc:interceptor>
