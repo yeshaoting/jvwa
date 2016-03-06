@@ -296,7 +296,7 @@ public class SohuController {
                 return;
             }
 
-            if (StringUtils.endsWith(file, "jsp")) {
+            if (StringUtils.endsWith(file, "php") || StringUtils.endsWith(stage6FileMap.get(file), "jsp")) {
                 response.setContentType("text/plain");
             } else {
                 response.setContentType("image/jpeg");
