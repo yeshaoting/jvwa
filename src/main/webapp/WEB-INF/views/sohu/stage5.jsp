@@ -1,6 +1,7 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
 
-<div class="row">
-  <div class="col-md-6" ng-controller="StageCtrl">
+<div class="row" ng-controller="StageCtrl">
+  <div class="col-md-6">
 
     <!-- Widget -->
     <div class="widget">
@@ -8,7 +9,7 @@
       <!-- Widget title -->
       <div class="widget-head">
         <div class="pull-left">
-          <h2>关卡2</h2>
+          <h2>关卡5</h2>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -19,22 +20,22 @@
           <!-- Contact box -->
           <div class="stage-content">
             <p>
-            <h4>任务目标：本题没有可登入的用户名密码，请绕过登录验证。</h4>
-            <h4>Tips：就算是判断了用户名 and 密码 都正确，也是被禁用的。</h4>
+              <h4>任务目标：通过收到的短信验证码完成手机验证。</h4>
+              <h4>Tips：有时候采用最原始的方法收到的效果反而更显著。</h4>
             </p>
             <hr />
             <p>
             <form class="form-horizontal" role="form">
               <div class="form-group">
-                <label for="stage2Username" class="col-lg-3 control-label">用户：</label>
+                <label for="phone" class="col-lg-3 control-label">手机号：</label>
                 <div class="col-lg-8">
-                  <input ng-model="stage2Username" type="text" class="form-control" id="stage2Username" placeholder="用户">
+                  <input ng-model="phone" ng-disabled="true" type="text" class="form-control" id="phone" placeholder="手机号">
                 </div>
               </div>
               <div class="form-group">
-                <label for="state2Password" class="col-lg-3 control-label">密码：</label>
+                <label for="smsCode" class="col-lg-3 control-label">验证码：</label>
                 <div class="col-lg-8">
-                  <input ng-model="state2Password" type="password" class="form-control" id="state2Password" placeholder="密码">
+                  <input ng-model="smsCode" type="text" class="form-control" id="smsCode" placeholder="验证码">
                 </div>
               </div>
             </form>
@@ -45,10 +46,12 @@
         
         <div class="widget-foot">
           <div class="pull-right">
-            <button class="btn btn-primary" ng-click="stage2Submit()">提交</button>
+            <button class="btn btn-primary" ng-click="verfiySmsCode()">验证</button>
+            <button class="btn btn-danger" ng-click="sendSmsCode()">获取短信验证码</button>
           </div>
           <div class="clearfix"></div>
         </div>
+
       </div><!-- widget-content -->
 
     </div>

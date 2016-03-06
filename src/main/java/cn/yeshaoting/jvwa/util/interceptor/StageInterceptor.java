@@ -36,7 +36,7 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
 
         User user = ThreadLocalUtil.CACHE.get();
         if (user.getStage() + 1 < stageAnnotation.current()) {
-            logger.warn("user: {} try to access unauthoried stage: {}", JSON.toJSONString(user),
+            logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     stageAnnotation.current());
             throw new IllegalStateException("无权限访问的关卡！");
         }

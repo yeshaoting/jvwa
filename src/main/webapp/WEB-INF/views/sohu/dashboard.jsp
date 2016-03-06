@@ -1,3 +1,4 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
 
 <div class="row" ng-controller="StageCtrl">
   <div class="col-md-6">
