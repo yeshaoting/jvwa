@@ -1,13 +1,20 @@
 package cn.yeshaoting.jvwa.web.sohu;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -69,6 +76,8 @@ public class SohuController {
     private static final Map<Integer, Integer> stage4GoodsMap = Maps.newHashMap();
     private static final int stage4DefaultMoney = 20000;
     
+    private static final Map<String, String> stage6FileMap = Maps.newHashMap();
+    
     @Value("${max_stage}")
     private int MAX_STAGE;
     
@@ -83,6 +92,9 @@ public class SohuController {
         stage4GoodsMap.put(1, 199);
         stage4GoodsMap.put(2, 1999);
         stage4GoodsMap.put(3, 7999999);
+        
+        stage6FileMap.put("image.jpg", "/Users/yeshaoting/java/workspace/github/jvwa/src/main/webapp/WEB-INF/views/sohu/file/image.jpg");
+        stage6FileMap.put("stage6.jsp", "/Users/yeshaoting/java/workspace/github/jvwa/src/main/webapp/WEB-INF/views/sohu/file/stage6.jsp");
     }
 
     @RequestMapping(value = { "", "index" })
@@ -251,6 +263,43 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
 
+    @StageValidation(current = 6)
+    @ResponseBody
+    @RequestMapping(value = "stage6Image")
+    public void stage6Image(@RequestParam(value = "file", required = true) String file, HttpServletResponse response) {
+        if (!stage6FileMap.containsKey(file)) {
+            logger.info("找不到对应的文件：{}", file);
+            return;
+        }
+        
+        String filepath = stage6FileMap.get(file);
+        if (StringUtils.endsWith(file, "jsp")) {
+            response.setContentType("text/plain");
+        } else {
+            response.setContentType("image/jpeg");
+        }
+        
+        OutputStream out = null;
+        try {
+            File localFile = new File(filepath);
+            byte[] bytes = FileUtils.readFileToByteArray(localFile);
+            if (ArrayUtils.isEmpty(bytes)) {
+                return;
+            }
+            
+            out = response.getOutputStream();
+            IOUtils.write(bytes, out);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                IOUtils.closeQuietly(out);
+            }
+        }
+        
+    }
+    
     @StageValidation(current = 6)
     @ResponseBody
     @RequestMapping(value = "checkSecureCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)

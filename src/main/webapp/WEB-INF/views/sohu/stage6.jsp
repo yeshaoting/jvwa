@@ -21,7 +21,7 @@
           <div class="stage-content">
             <p>
               <h4>任务目标：找到可以通过本关的密码并提交。</h4>
-              <h4>Tips：密码被硬编码到了当前页面的jsp代码里。</h4>
+              <h4>Tips：密码被硬编码到了当前页面服务器的jsp代码里。</h4>
             </p>
             <hr />
             <p class="center">

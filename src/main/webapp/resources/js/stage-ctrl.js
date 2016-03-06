@@ -152,7 +152,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	}
 	
 	//$scope.image_url = Constants.resources_path + '/img/image.jpg';
-	$scope.image_url = Constants.server_url + '/sohu/stage6.jsp?file=image.jpg';
+	$scope.image_url = Constants.server_url + '/sohu/stage6Image?file=image.jpg';
 	$scope.checkSecureCode = function() {
 		$http({
 			method : 'POST',
