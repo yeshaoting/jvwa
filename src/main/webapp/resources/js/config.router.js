@@ -10,6 +10,7 @@ app.run([ '$rootScope', '$state', '$stateParams', function($rootScope, $state, $
   // 监听状态改变
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 	 //$state.reload(toState.name);
+	 $rootScope.$broadcast('checkUserInfo');
      console.log("from state: " + fromState.name + ", to state: " + toState.name);
   });
 }]);
