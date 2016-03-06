@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,30 +72,30 @@ public class SohuController {
     private static AtomicInteger SMS_CODE = new AtomicInteger(RandomUtils.nextInt(100, 999));
 
     private static final String STAGE6_CODE = "sATa3HGe6";
-    
+
     private static final Map<String, Integer> stage4MoneyMap = Maps.newConcurrentMap();
     private static final Map<Integer, Integer> stage4GoodsMap = Maps.newHashMap();
     private static final int stage4DefaultMoney = 20000;
-    
+
     private static final Map<String, String> stage6FileMap = Maps.newHashMap();
-    
+
     @Value("${max_stage}")
     private int MAX_STAGE;
-    
+
     @Resource
     private JdbcTemplate jdbcTemplate;
 
     @Resource
     private UserMapper userMapper;
-    
+
     @PostConstruct
     public void init() {
         stage4GoodsMap.put(1, 199);
         stage4GoodsMap.put(2, 1999);
         stage4GoodsMap.put(3, 7999999);
-        
-        stage6FileMap.put("image.jpg", "/Users/yeshaoting/java/workspace/github/jvwa/src/main/webapp/WEB-INF/views/sohu/file/image.jpg");
-        stage6FileMap.put("stage6.jsp", "/Users/yeshaoting/java/workspace/github/jvwa/src/main/webapp/WEB-INF/views/sohu/file/stage6.jsp");
+
+        stage6FileMap.put("../image.jpg", "classpath:file/image.jpg");
+        stage6FileMap.put("stage6.jsp", "classpath:file/stage6.jsp");
     }
 
     @RequestMapping(value = { "", "index" })
@@ -107,7 +108,7 @@ public class SohuController {
         if (id <= 0 || id > MAX_STAGE) {
             return "sohu/dashboard";
         }
-        
+
         boolean debug = true;
         User user = ThreadLocalUtil.CACHE.get();
         if (!debug && user.getStage() + 1 < id) {
@@ -149,7 +150,6 @@ public class SohuController {
                 return Response.build(HttpStatus.BAD_REQUEST, "用户名密码验证失败！");
             }
 
-            
             upgrade(2);
             logger.info("bingo sql: {}", sql);
             return Response.build(HttpStatus.OK, "恭喜，闯关成功~");
@@ -159,14 +159,14 @@ public class SohuController {
         }
 
     }
-    
+
     private void upgrade(int current) {
         User user = ThreadLocalUtil.CACHE.get();
         if (user.getStage() < current) {
             user.setStage(user.getStage() + 1);
             userMapper.replace(user);
         }
-        
+
     }
 
     @StageValidation(current = 3)
@@ -174,7 +174,7 @@ public class SohuController {
     public String admin() {
         return "sohu/admin";
     }
-    
+
     @StageValidation(current = 3)
     @ResponseBody
     @RequestMapping(value = "stage3/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
@@ -188,36 +188,36 @@ public class SohuController {
     @RequestMapping(value = "stage4/money", produces = "application/json;charset=UTF-8")
     public Response<Integer> stage4Money() {
         User user = ThreadLocalUtil.CACHE.get();
-        Integer money = MapUtils.getIntValue(stage4MoneyMap, user.getUsername(), stage4DefaultMoney);
+        Integer money = MapUtils.getIntValue(stage4MoneyMap, user.getUsername(),
+                stage4DefaultMoney);
         return Response.build("成功查询所拥有的虚拟货币", money);
     }
-    
-        
+
     @StageValidation(current = 4)
     @ResponseBody
     @RequestMapping(value = "stage4/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response<Object> buyStage4(@RequestParam(value = "id", required = true) int id,
             @RequestParam(value = "price", required = true) int price) {
-        if (!stage4GoodsMap.containsKey(id))  {
+        if (!stage4GoodsMap.containsKey(id)) {
             return Response.build(HttpStatus.BAD_REQUEST, "不存在的商品");
         }
-        
+
         User user = ThreadLocalUtil.CACHE.get();
         int money = MapUtils.getIntValue(stage4MoneyMap, user.getUsername(), stage4DefaultMoney);
         if (money < stage4GoodsMap.get(id)) {
             return Response.build(HttpStatus.BAD_REQUEST, "很抱歉，你的虚拟货币不足以购买此件商品！");
         }
-        
+
         stage4MoneyMap.put(user.getUsername(), money - price);
-        
+
         if (id != 3) {
             return Response.build(HttpStatus.BAD_REQUEST, "购买商品，但是未购买价值最高的物品");
         }
-        
+
         upgrade(4);
         return Response.build(HttpStatus.OK);
     }
-    
+
     @StageValidation(current = 5)
     @ResponseBody
     @RequestMapping(value = "sms/code/verfiy", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
@@ -263,57 +263,6 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
 
-    @StageValidation(current = 6)
-    @ResponseBody
-    @RequestMapping(value = "stage6Image")
-    public void stage6Image(@RequestParam(value = "file", required = true) String file, HttpServletResponse response) {
-        if (!stage6FileMap.containsKey(file)) {
-            logger.info("找不到对应的文件：{}", file);
-            return;
-        }
-        
-        String filepath = stage6FileMap.get(file);
-        if (StringUtils.endsWith(file, "jsp")) {
-            response.setContentType("text/plain");
-        } else {
-            response.setContentType("image/jpeg");
-        }
-        
-        OutputStream out = null;
-        try {
-            File localFile = new File(filepath);
-            byte[] bytes = FileUtils.readFileToByteArray(localFile);
-            if (ArrayUtils.isEmpty(bytes)) {
-                return;
-            }
-            
-            out = response.getOutputStream();
-            IOUtils.write(bytes, out);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                IOUtils.closeQuietly(out);
-            }
-        }
-        
-    }
-    
-    @StageValidation(current = 6)
-    @ResponseBody
-    @RequestMapping(value = "checkSecureCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
-    public Response checkSecureCode(@RequestParam(value = "code", required = true) String code) {
-        logger.info("requesting code: {}", code);
-
-        if (!StringUtils.equals(code, STAGE6_CODE)) {
-            return Response.build(HttpStatus.BAD_REQUEST, "密码不正确！");
-        }
-
-        upgrade(6);
-        return Response.build(HttpStatus.OK);
-    }
-
     /**
      * 随机切换3位短信验证码
      */
@@ -331,6 +280,58 @@ public class SohuController {
      */
     private static boolean isMobile(String mobile) {
         return Pattern.matches(REGEX_MOBILE, mobile);
+    }
+
+    @StageValidation(current = 6)
+    @RequestMapping(value = "stage6.php")
+    public void stage6Image(@RequestParam(value = "file", required = true) String file,
+            HttpServletResponse response) throws IOException {
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();
+            if (!stage6FileMap.containsKey(file)) {
+                logger.info("找不到对应的文件：{}", file);
+                response.setContentType("text/plain");
+                IOUtils.write("请求的文件不存在！".getBytes(), out);
+                return;
+            }
+
+            if (StringUtils.endsWith(file, "jsp")) {
+                response.setContentType("text/plain");
+            } else {
+                response.setContentType("image/jpeg");
+            }
+
+            String filepath = stage6FileMap.get(file);
+            File localFile = ResourceUtils.getFile(filepath);
+            logger.debug("file: {}", localFile.getAbsolutePath());
+            byte[] bytes = FileUtils.readFileToByteArray(localFile);
+            if (ArrayUtils.isEmpty(bytes)) {
+                return;
+            }
+
+            IOUtils.write(bytes, out);
+        } finally {
+            if (out != null) {
+                out.flush();
+                IOUtils.closeQuietly(out);
+            }
+        }
+
+    }
+
+    @StageValidation(current = 6)
+    @ResponseBody
+    @RequestMapping(value = "checkSecureCode", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    public Response checkSecureCode(@RequestParam(value = "code", required = true) String code) {
+        logger.info("requesting code: {}", code);
+
+        if (!StringUtils.equals(code, STAGE6_CODE)) {
+            return Response.build(HttpStatus.BAD_REQUEST, "密码不正确！");
+        }
+
+        upgrade(6);
+        return Response.build(HttpStatus.OK);
     }
 
 }
