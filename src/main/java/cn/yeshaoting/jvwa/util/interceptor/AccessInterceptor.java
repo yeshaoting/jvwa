@@ -41,24 +41,24 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         if (clazzAnnotation == null && methodAnnotation == null) {
             return true;
         }
-        
+
         String authorizeUrl = serverUrl + "/user/login";
         try {
             String username = CookieUtils.getCookieValue(Constants.AUTH_COOKIE_KEY, request);
             if (StringUtils.isBlank(username)) {
-                throw new IllegalArgumentException("cookie不包含任何必须的登录信息！");
+                throw new IllegalStateException("cookie不包含任何必须的登录信息！");
             }
 
             User user = userMapper.findUserByUsername(username);
             if (user == null) {
-                throw new IllegalArgumentException("用户" + username + "不存在，请先登记！");
+                throw new IllegalStateException("用户" + username + "不存在，请先登记！");
             }
 
             ThreadLocalUtil.CACHE.set(user);
             request.setAttribute("user", user);
             request.setAttribute("username", user.getUsername());
             return true;
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalStateException e) {
             logger.debug(e.getMessage(), e);
             response.sendRedirect(authorizeUrl);
         } catch (Exception e) {
@@ -69,5 +69,5 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return false;
 
     }
-    
+
 }

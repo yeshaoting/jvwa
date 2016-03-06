@@ -57,7 +57,7 @@ public class HandlerExceptionResolverExt implements HandlerExceptionResolver {
       }
       
       String message = "系统内部错误！";
-      if (ex instanceof IllegalArgumentException) {
+      if (ex instanceof IllegalStateException || ex instanceof IllegalArgumentException) {
           message = ex.getMessage();
       }
       
