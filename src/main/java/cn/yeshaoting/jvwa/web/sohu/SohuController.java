@@ -95,7 +95,7 @@ public class SohuController {
         stage4GoodsMap.put(3, 7999999);
 
         stage6FileMap.put("../image.jpg", "classpath:file/image.jpg");
-        stage6FileMap.put("stage6.jsp", "classpath:file/stage6.jsp");
+        stage6FileMap.put("stage6.php", "classpath:file/stage6.jsp");
     }
 
     @RequestMapping(value = { "", "index" })
