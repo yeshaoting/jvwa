@@ -37,21 +37,21 @@
               <td>红米1手机</td>
               <td>$399</td>
               <td>
-                <button class="btn btn-default" title="购买" ng-click="buy(0)">购买</button>
+                <button class="btn btn-default" title="购买" ng-click="buy(1, 399)">购买</button>
               </td>
             </tr>
             <tr>
               <td>小米5手机</td>
               <td>$1999</td>
               <td>
-                <button class="btn btn-default" title="购买" ng-click="buy(1)">购买</button>
+                <button class="btn btn-default" title="购买" ng-click="buy(2, 1999)">购买</button>
               </td>
             </tr>
             <tr>
               <td>劳斯莱斯</td>
               <td>$7999999</td>
               <td>
-                <button class="btn btn-default" title="购买" ng-click="buy(2)">购买</button>
+                <button class="btn btn-default" title="购买" ng-click="buy(3, 7999999)">购买</button>
               </td>
             </tr>
           </table>
@@ -59,7 +59,7 @@
 
         <div class="widget-foot">
           <div class="pull-right">
-            <label class="label label-warning">你现在拥有$20000虚拟货币</label>
+            <label class="label label-warning">你现在拥有 $<span ng-bind="virtualMoney"></span> 虚拟货币</label>
           </div>
           <div class="clearfix"></div>
         </div>

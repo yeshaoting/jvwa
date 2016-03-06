@@ -3,7 +3,23 @@
  */
 app.controller("MainCtrl", MainCtrl);
 
-function MainCtrl($http, $scope, $rootScope, $http, $log, $state) {
-  
-  
+var SUCCESS_MESSAGE = "恭喜你，闯关成功啦! (*^ω^*)";
+
+function MainCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
+
+	$timeout(function() {
+		$http({
+			method : 'GET',
+			url : Constants.server_url + '/user/info',
+		}).success(function(text, status, headers, config) {
+			if (text.status != 200) {
+				Notify.error(text.statusText);
+				return;
+			}
+
+			$scope.user = text.data;
+		}); // $http
+
+	});// $timeout
+
 }

@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 
 import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
+import cn.yeshaoting.jvwa.util.exception.AuthorizedException;
 
 public class StageInterceptor extends HandlerInterceptorAdapter {
 
@@ -38,7 +39,7 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
         if (user.getStage() + 1 < stageAnnotation.current()) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     stageAnnotation.current());
-            throw new IllegalStateException("无权限访问的关卡！");
+            throw new AuthorizedException("无权限访问的关卡！");
         }
 
         return true;

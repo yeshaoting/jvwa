@@ -3,32 +3,13 @@
  */
 app.controller("StageCtrl", StageCtrl);
 
-var SUCCESS_MESSAGE = "恭喜你，闯关成功啦! (*^ω^*)";
-
 function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 
 	$scope.maxStage = 10;
 	
-	$timeout(function() {
-      $http({
-        method : 'GET',
-        url : Constants.server_url + '/user/info',
-      }).success(function(text, status, headers, config) {
-        if (text.status != 200) {
-          Notify.error(text.statusText);
-          return;
-        }
-
-        $scope.user = text.data;
-      }); // $http
-
-    });// $timeout
-	
-	
-
 	$scope.nextStage = function() {
 		var nextStage = $scope.user.stage + 1;
-		$state.go("stage" + nextStage);
+		$state.go("stage" + nextStage, {}, {"reload": true});
 	}
 	
 	$scope.stage1Submit = function() {
@@ -49,7 +30,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 				}
 				
 				alert(SUCCESS_MESSAGE);
-				$state.go("stage2");
+				$state.go("stage2", {}, {"reload": true});
 			}, function errorCallback(response) {
 				Notify.error(response.data.statusText);
 			});
@@ -76,7 +57,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 			}
 			
 			alert(SUCCESS_MESSAGE);
-			$state.go("stage3");
+			$state.go("stage3", {}, {"reload": true});
 		}, function errorCallback(response) {
 			Notify.error(response.data.statusText);
 		});
@@ -101,6 +82,48 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		
 	}
 	
+	$scope.buy = function(id, price) {
+		var params = {
+			id: id,
+			price: price
+		}
+	
+		$http({
+			method : 'POST',
+			url : Constants.server_url + '/sohu/stage4/pass?' + $.param(params, true)
+		}).then(function successCallback(response) {
+			if (response.data.status != 200) {
+				Notify.error(response.data.statusText);
+				$scope.stageMoney();
+				return;
+			}
+			
+			alert(SUCCESS_MESSAGE);
+			$state.go("stage5", {}, {"reload": true});
+		}, function errorCallback(response) {
+			Notify.error(response.data.statusText);
+		});
+	}
+	
+	$scope.stageMoney = function() {
+		$timeout(function() {
+			$http({
+				method : 'GET',
+				url : Constants.server_url + '/sohu/stage4/money',
+			}).success(function(text, status, headers, config) {
+				if (text.status != 200) {
+					Notify.error(text.statusText);
+					return;
+				}
+
+				$scope.virtualMoney = text.data;
+			}); // $http
+
+		});// $timeout
+	}
+	
+	$scope.stageMoney();
+	
 	$scope.verfiySmsCode = function() {
 		if (!$scope.smsCode) {
 			Notify.error("请输入短信验证码！");
@@ -121,7 +144,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 			}
 			
 			alert(SUCCESS_MESSAGE);
-			$state.go("stage6");
+			$state.go("stage6", {}, {"reload": true});
 		}, function errorCallback(response) {
 			Notify.error(response.data.statusText);
 		});
@@ -141,7 +164,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 			}
 			
 			alert(SUCCESS_MESSAGE);
-			$state.go("stage7");
+			$state.go("stage7", {}, {"reload": true});
 		}, function errorCallback(response) {
 			Notify.error(response.data.statusText);
 		});

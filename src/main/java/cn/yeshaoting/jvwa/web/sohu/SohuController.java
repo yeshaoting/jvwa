@@ -1,9 +1,13 @@
 package cn.yeshaoting.jvwa.web.sohu;
 
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 
 import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.mapper.UserMapper;
@@ -55,17 +60,28 @@ public class SohuController {
     /**
      * 初始短信验证码
      */
-    private static int SMS_CODE = RandomUtils.nextInt(100, 999);
+    private static AtomicInteger SMS_CODE = new AtomicInteger(RandomUtils.nextInt(100, 999));
 
     private static final String STAGE6_CODE = "sATa3HGe6";
     
-    private static int maxStage = 7;
+    private static final Map<String, Integer> stage4MoneyMap = Maps.newConcurrentMap();
+    private static final Map<Integer, Integer> stage4GoodsMap = Maps.newHashMap();
+    private static final int stage4DefaultMoney = 20000;
+    
+    private static final int maxStage = 7;
 
     @Resource
     private JdbcTemplate jdbcTemplate;
 
     @Resource
     private UserMapper userMapper;
+    
+    @PostConstruct
+    public void init() {
+        stage4GoodsMap.put(1, 199);
+        stage4GoodsMap.put(2, 1999);
+        stage4GoodsMap.put(3, 7999999);
+    }
 
     @RequestMapping(value = { "", "index" })
     public String index(Model model) {
@@ -78,7 +94,7 @@ public class SohuController {
             return "sohu/dashboard";
         }
         
-        boolean debug = true;
+        boolean debug = false;
         User user = ThreadLocalUtil.CACHE.get();
         if (!debug && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
@@ -94,12 +110,7 @@ public class SohuController {
     @ResponseBody
     @RequestMapping(value = "stage1/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response passStage1() {
-        User user = ThreadLocalUtil.CACHE.get();
-        if (user.getStage() == 0) {
-            user.setStage(1);
-            userMapper.replace(user);
-        }
-
+        upgrade(1);
         return Response.build(HttpStatus.OK);
     }
 
@@ -124,6 +135,8 @@ public class SohuController {
                 return Response.build(HttpStatus.BAD_REQUEST, "用户名密码验证失败！");
             }
 
+            
+            upgrade(2);
             logger.info("bingo sql: {}", sql);
             return Response.build(HttpStatus.OK, "恭喜，闯关成功~");
         } catch (Exception e) {
@@ -132,19 +145,71 @@ public class SohuController {
         }
 
     }
+    
+    private void upgrade(int current) {
+        User user = ThreadLocalUtil.CACHE.get();
+        if (user.getStage() < current) {
+            user.setStage(user.getStage() + 1);
+            userMapper.replace(user);
+        }
+        
+    }
 
     @StageValidation(current = 3)
     @RequestMapping(value = { "admin", "admin/index" })
     public String admin() {
         return "sohu/admin";
     }
+    
+    @StageValidation(current = 3)
+    @ResponseBody
+    @RequestMapping(value = "stage3/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    public Response<Object> passStage3() {
+        upgrade(3);
+        return Response.build(HttpStatus.OK);
+    }
 
+    @StageValidation(current = 4)
+    @ResponseBody
+    @RequestMapping(value = "stage4/money", produces = "application/json;charset=UTF-8")
+    public Response<Integer> stage4Money() {
+        User user = ThreadLocalUtil.CACHE.get();
+        Integer money = MapUtils.getIntValue(stage4MoneyMap, user.getUsername(), stage4DefaultMoney);
+        return Response.build("成功查询所拥有的虚拟货币", money);
+    }
+    
+        
+    @StageValidation(current = 4)
+    @ResponseBody
+    @RequestMapping(value = "stage4/pass", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    public Response<Object> buyStage4(@RequestParam(value = "id", required = true) int id,
+            @RequestParam(value = "price", required = true) int price) {
+        if (!stage4GoodsMap.containsKey(id))  {
+            return Response.build(HttpStatus.BAD_REQUEST, "不存在的商品");
+        }
+        
+        User user = ThreadLocalUtil.CACHE.get();
+        int money = MapUtils.getIntValue(stage4MoneyMap, user.getUsername(), stage4DefaultMoney);
+        if (money < stage4GoodsMap.get(id)) {
+            return Response.build(HttpStatus.BAD_REQUEST, "很抱歉，你的虚拟货币不足以购买此件商品！");
+        }
+        
+        stage4MoneyMap.put(user.getUsername(), money - price);
+        
+        if (id != 3) {
+            return Response.build(HttpStatus.BAD_REQUEST, "购买商品，但是未购买价值最高的物品");
+        }
+        
+        upgrade(4);
+        return Response.build(HttpStatus.OK);
+    }
+    
     @StageValidation(current = 5)
     @ResponseBody
     @RequestMapping(value = "sms/code/verfiy", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     public Response verfiySmsCode(@RequestParam(value = "phone", required = true) String phone,
             @RequestParam(value = "code", required = true) int code) {
-        logger.info("requesting phone: {}, code: {}, current code: {}", phone, code, SMS_CODE);
+        logger.debug("requesting phone: {}, code: {}, current code: {}", phone, code, SMS_CODE);
 
         if (StringUtils.isEmpty(phone) || !isMobile(phone)) {
             return Response.build(HttpStatus.BAD_REQUEST, "无效的手机号！");
@@ -154,11 +219,12 @@ public class SohuController {
             return Response.build(HttpStatus.BAD_REQUEST, "无效的短信验证码！");
         }
 
-        if (code != SMS_CODE) {
+        if (code != SMS_CODE.get()) {
             return Response.build(HttpStatus.BAD_REQUEST, "短信验证码不正确！");
         }
 
-        // changeSmsCode();
+        logger.debug("requesting phone: {}, bingo code: {}", phone, SMS_CODE);
+        upgrade(5);
         return Response.build(HttpStatus.OK);
     }
 
@@ -200,8 +266,8 @@ public class SohuController {
      * 随机切换3位短信验证码
      */
     private void changeSmsCode() {
-        int originSmsCode = SMS_CODE;
-        SMS_CODE = RandomUtils.nextInt(100, 999);
+        int originSmsCode = SMS_CODE.get();
+        SMS_CODE = new AtomicInteger(RandomUtils.nextInt(100, 999));
         logger.warn("origin sms code: {}, current sms code: {}", originSmsCode, SMS_CODE);
     }
 

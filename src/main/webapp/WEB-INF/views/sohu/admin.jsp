@@ -1,118 +1,122 @@
-﻿<%@ page language="java" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/common/taglibs.jsp"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
-<html lang="zh_CN" ng-app="app">
-<head>
-<title>JVWA</title>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="keywords" content="JVWA" />
-<meta name="description" content="Java Vulnerable Web Application" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script type="text/javascript">
-  var Constants = {
-    base_url : "${base_url}",
-    server_url : "${server_url}",
-    index_url : "${index_url}",
-    resources_path : "${resources_path}",
-    resources_version : "${resources_version}",
-  };
-</script>
-
-<!-- just for file upload template -->
-<link rel="stylesheet" href="${styles_path}/app.css?version=${resources_version}">
-
-<!-- bootstrap -->
-<link type="text/css" rel="stylesheet" href="${scripts_path}/bootstrap/css/bootstrap.css?version=${resources_version}" />
-<link type="text/css" rel="stylesheet" href="${scripts_path}/bootstrap/css/bootstrap-theme.css?version=${resources_version}" />
-<!-- Font awesome icon -->
-<link type="text/css" rel="stylesheet" href="${styles_path}/font-awesome/css/font-awesome.css?version=${resources_version}" />
-<!--[if IE 7]>
-  <link type="text/css" rel="stylesheet" href="${static_path}/font-awesome/css/font-awesome-ie7.css?version=${resources_version}" />
-  <![endif]-->
-
-<!-- jQuery UI -->
-<link rel="stylesheet" href="${scripts_path}/angular-ui-select/select.css?version=${resources_version}">
-
-<!-- custom style -->
-<link rel="stylesheet" href="${styles_path}/main.css?version=${resources_version}">
-<!-- Main stylesheet -->
-<link rel="stylesheet" href="${styles_path}/style.css?version=${resources_version}">
-<!-- Widgets stylesheet -->
-<link rel="stylesheet" href="${styles_path}/widgets.css?version=${resources_version}">
-
-<link rel="stylesheet" href="${styles_path}/sohu.css?version=${resources_version}">
-
-<!-- HTML5 Support for IE -->
-<!--[if lt IE 9]>
-  <script src="${scripts_path}/html5shim.js?version=${resources_version}"></script>
-  <![endif]-->
-
-<!-- jquery -->
-<script type="text/javascript" src="${scripts_path}/jquery/jquery.js?version=${resources_version}"></script>
-
-<!-- angularjs -->
-<script type="text/javascript" src="${scripts_path}/angular/angular.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/angular/angular-sanitize.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/angular/angular-route.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/angular-ui-bootstrap/ui-bootstrap-tpls-0.11.0.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/angular-ui-utils/ui-utils.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/angular-ui-select/select.js?version=${resources_version}"></script>
-<!--[if lte IE 8]>
-<script>
-window.myCustomTags = [ 'yourCustomDirective', 'somebodyElsesDirective' ]; // optional
-</script>
-<script type="text/javascript" src="${scripts_path}/angular-ui-utils/ui-utils-ieshiv.js?version=${resources_version}"></script>
-<![endif]-->
-<script type="text/javascript" src="${scripts_path}/angular-ui-router/angular-ui-router.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/angular-file-upload/angular-file-upload.js?version=${resources_version}"></script>
-
-<!-- bootstrap -->
-<script type="text/javascript" src="${scripts_path}/bootstrap/js/bootstrap.js?version=${resources_version}"></script>
-
-<!-- noty -->
-<script type="text/javascript" src="${scripts_path}/noty/packaged/jquery.noty.packaged.js?version=${resources_version}"></script>
-
-<!-- bootbox dialog -->
-<script type="text/javascript" src="${scripts_path}/bootbox/bootbox.js?version=${resources_version}"></script>
-
-<!-- custom -->
-<script type="text/javascript" src="${scripts_path}/app.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/config.router.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/main-ctrl.js?version=${resources_version}"></script>
 <script type="text/javascript" src="${scripts_path}/admin-ctrl.js?version=${resources_version}"></script>
+<div class="row" ng-controller="AdminCtrl">
+  <div class="col-md-6">
 
-<!-- custom utils -->
-<script type="text/javascript" src="${scripts_path}/notify.js?version=${resources_version}"></script>
-<script type="text/javascript" src="${scripts_path}/custom.js?version=${resources_version}"></script>
+    <!-- Widget -->
+    <div class="widget">
 
-<!-- Favicon -->
-<link rel="shortcut icon" href="${images_path}/favicon.ico?version=${resources_version}">
-</head>
-
-<body>
-
-  <%@ include file="/WEB-INF/common/navbar.jsp"%>
-
-  <!-- Main content starts -->
-  <div class="content" ng-controller="MainCtrl">
-
-    <!-- Matter -->
-    <div class="matter">
-      <div class="container">
-        <%@ include file="/WEB-INF/views/sohu/admin-content.jsp"%>
+      <!-- Widget title -->
+      <div class="widget-head">
+        <div class="pull-left">
+          <h2>WEB安全渗透实战-后台管理系统</h2>
+        </div>
+        <div class="clearfix"></div>
       </div>
+
+      <div class="widget-content">
+        <!-- Widget content -->
+        <div class="widget-content referrer">
+          <!-- Widget content -->
+
+          <table class="table table-striped table-bordered table-hover center">
+            <tr>
+              <th class="center">用户名</th>
+              <th class="center">当前关卡</th>
+              <th class="center">操作</th>
+            </tr>
+            <tr>
+              <td>***juan***</td>
+              <td>3</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>**sh**q*un*</td>
+              <td>9</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td><label class="label label-success" ng-bind="user.username"></label></td>
+              <td><span ng-bind="user.stage"</span></td>
+              <td>
+                <a href="" title="升级" ng-click="stage3Upgrade()">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>*w***y*e*</td>
+              <td>4</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>**l***y*</td>
+              <td>1</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>***w*e*n*</td>
+              <td>7</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>**mi**n*k*</td>
+              <td>0</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>**c**zh**</td>
+              <td>2</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+            <tr>
+              <td>*wa***pe**</td>
+              <td>0</td>
+              <td>
+                <a href="#upgrade" title="升级">升级</a> |
+                <a href="#reset" title="重置比分">重置比分</a> |
+                <a href="#forbid" title="禁用账号">禁用账号</a>
+              </td>
+            </tr>
+          </table>
+
+          <div class="widget-foot">&nbsp;&nbsp;</div>
+        </div>
+      </div>
+      <!-- widget-content -->
+
     </div>
-    <!-- Matter ends -->
-
-    <div class="clearfix"></div>
-
   </div>
-  <!-- Content ends -->
+  <!-- .col-md-12 -->
+</div>
+<!-- .row -->
 
-  <%-- <%@ include file="/WEB-INF/common/footer.jsp"%> --%>
-
-</body>
-</html>

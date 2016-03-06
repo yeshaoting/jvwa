@@ -9,6 +9,7 @@ app.run([ '$rootScope', '$state', '$stateParams', function($rootScope, $state, $
 
   // 监听状态改变
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+	 //$state.reload(toState.name);
      console.log("from state: " + fromState.name + ", to state: " + toState.name);
   });
 }]);
@@ -58,6 +59,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
   }).state('stage10', {
     url : '/stage10',
     templateUrl : Constants.server_url + '/sohu/stage/10?version=' + Constants.resources_version,
+  }).state('admin', {
+    url : '/admin',
+    templateUrl : Constants.server_url + '/sohu/admin?version=' + Constants.resources_version,
   })
 
 });
