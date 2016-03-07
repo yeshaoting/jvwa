@@ -13,10 +13,8 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	}
 	
 	$scope.stage1Submit = function() {
-		// var stage1Username = "stage1_user";
-		// var state1Password = "tHis1Is3aSim3p#ab$";
-		var stage1Username = "yeshaoting";
-		var state1Password = "yeshaoting";
+		var stage1Username = "stage1_user";
+		var state1Password = "tHis1Is3aSim3p#ab$";
 
 		if (stage1Username == $scope.stage1Username && state1Password == $scope.state1Password) {
 			$http({

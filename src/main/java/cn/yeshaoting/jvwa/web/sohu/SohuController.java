@@ -109,7 +109,7 @@ public class SohuController {
             return "sohu/dashboard";
         }
 
-        boolean debug = true;
+        boolean debug = false;
         User user = ThreadLocalUtil.CACHE.get();
         if (!debug && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
@@ -183,7 +183,6 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
 
-    @StageValidation(current = 4)
     @ResponseBody
     @RequestMapping(value = "stage4/money", produces = "application/json;charset=UTF-8")
     public Response<Integer> stage4Money() {
