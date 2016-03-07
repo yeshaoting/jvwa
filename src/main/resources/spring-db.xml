@@ -38,22 +38,12 @@
     <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
   </bean>
 
-  <!-- write -->
-  <bean id="writeDatasource" parent="baseDataSource">
+  <bean id="dataSource" parent="baseDataSource">
     <!-- 数据库地址，用户名，密码 -->
-    <property name="url" value="${write.jdbc.url}" />
-    <property name="username" value="${write.jdbc.username}" />
-    <property name="password" value="${write.jdbc.password}" />
+    <property name="url" value="${jdbc.url}" />
+    <property name="username" value="${jdbc.username}" />
+    <property name="password" value="${jdbc.password}" />
   </bean>
-  <!-- read -->
-  <bean id="readDatasource" parent="baseDataSource">
-    <!-- 数据库地址，用户名，密码 -->
-    <property name="url" value="${read.jdbc.url}" />
-    <property name="username" value="${read.jdbc.username}" />
-    <property name="password" value="${read.jdbc.password}" />
-  </bean>
-
-  <bean id="dataSource" parent="writeDatasource" />
 
   <!-- spring 事务处理 为事务管理器指定的 DataSource 必须和用来创建 Mybatis的SqlSessionFactoryBean是同一个数据源,否则事务管理器就无法工作。 -->
   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
