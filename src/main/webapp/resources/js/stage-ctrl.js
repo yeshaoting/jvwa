@@ -166,5 +166,23 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 			Notify.error(response.data.statusText);
 		});
 	}
+	
+	$scope.checkStage7Right = function() {
+		$http({
+			method : 'GET',
+			url : Constants.server_url + '/sohu/checkStage7Right'
+		}).then(function successCallback(response) {
+			if (response.data.status != 200) {
+				Notify.error("抱歉：你不是来自于127.0.0.1的访客。");
+				return;
+			}
+			
+			alert(SUCCESS_MESSAGE);
+			$state.go("stage8", {}, {"reload": true});
+		}, function errorCallback(response) {
+			Notify.error(response.data.statusText);
+		});
+	}
+	
 }
 

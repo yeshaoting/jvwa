@@ -73,7 +73,10 @@
 
               <div class="widget-content">
                 <div class="padd">
-
+                  <p>
+                    <h4>温馨提示：介是用户登记页面，用于记录用户闯关状态。</h4>
+                  </p>
+                  <br/>
                   <!-- Username -->
                   <div class="form-group">
                     <label class="control-label col-lg-3" for="username">用户名：</label>
@@ -86,6 +89,9 @@
               </div>
 
               <div class="widget-foot">
+                <div class="pull-left">
+                    <h4><label class="label label-warning">No more inject，No more hack!</label></h4>
+                </div>
                 <!-- action -->
                 <div class="pull-right">
                   <button id="login" class="btn btn-primary">登记</button>

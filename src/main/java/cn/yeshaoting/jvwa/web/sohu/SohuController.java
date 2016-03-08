@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.MapUtils;
@@ -36,6 +37,7 @@ import com.google.common.collect.Maps;
 
 import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.mapper.UserMapper;
+import cn.yeshaoting.jvwa.util.IPUtil;
 import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
 import cn.yeshaoting.jvwa.util.interceptor.LoginRequired;
 import cn.yeshaoting.jvwa.util.interceptor.StageValidation;
@@ -75,9 +77,11 @@ public class SohuController {
 
     private static final Map<String, Integer> stage4MoneyMap = Maps.newConcurrentMap();
     private static final Map<Integer, Integer> stage4GoodsMap = Maps.newHashMap();
-    private static final int stage4DefaultMoney = 20000;
+    private static final int stage4DefaultMoney = 2000000;
 
     private static final Map<String, String> stage6FileMap = Maps.newHashMap();
+    
+    private static final String STAGE7_IP = "127.0.0.1";
 
     @Value("${max_stage}")
     private int MAX_STAGE;
@@ -87,6 +91,9 @@ public class SohuController {
 
     @Resource
     private UserMapper userMapper;
+    
+    @Resource
+    private HttpServletRequest request;
 
     @PostConstruct
     public void init() {
@@ -330,6 +337,21 @@ public class SohuController {
         }
 
         upgrade(6);
+        return Response.build(HttpStatus.OK);
+    }
+    
+    @StageValidation(current = 7)
+    @ResponseBody
+    @RequestMapping(value = "checkStage7Right", produces = "application/json;charset=UTF-8")
+    public Response checkStage7Right() {
+        String ip = IPUtil.getIp(request);
+        
+        logger.info("requesting ip: {}", ip);
+        if (!StringUtils.equals(ip, STAGE7_IP)) {
+            return Response.build(HttpStatus.BAD_REQUEST, "无权访问！");
+        }
+
+        upgrade(7);
         return Response.build(HttpStatus.OK);
     }
 
