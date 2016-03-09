@@ -25,7 +25,7 @@
             </p>
             <hr />
             <p class="center">
-                <img ng-src='{{stage8QrcodeUrl}}'>
+                <img ng-src='{{stage8QrcodeUrl}}' width="250" />
             </p>
           </div>
         </div>

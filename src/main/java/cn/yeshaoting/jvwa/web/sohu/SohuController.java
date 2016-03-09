@@ -362,37 +362,6 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
     
-    @StageValidation(current = 8)
-    @ResponseBody
-    @RequestMapping(value = "stage8/qrcode", produces = "application/json;charset=UTF-8")
-    public void stage8Qrcode(HttpServletResponse response) throws IOException {
-        response.setContentType("image/jpeg");
-        
-        String qrcodeUrl = getQrcodeUrl();
-        logger.info("stage8 qrcode url: {}", qrcodeUrl);
-        
-        URL url = new URL(qrcodeUrl);
-        InputStream in = url.openStream();
-        OutputStream out = response.getOutputStream();
-        
-        byte[] bytes = new byte[1024];
-        int hasRead = 0;
-        while ((hasRead = in.read(bytes)) > 0) {
-            out.write(bytes, 0 ,hasRead);
-        }
-        
-        out.flush();
-        IOUtils.closeQuietly(in);
-        IOUtils.closeQuietly(out);
-    }
-    
-    private String getQrcodeUrl() {
-        String QRCODE_URL_FORMAT = "http://qr.topscan.com/api.php?&w=200&logo=%s&text=%s";
-        String logo = "http://yeshaoting.cn/img/logo.png";
-        //return String.format(QRCODE_URL_FORMAT, logo, URLEncoder.encode(getStage8Url()));
-        return String.format(QRCODE_URL_FORMAT, logo, getStage8Url());
-    }
-    
     private String getStage8Url() {
         User user = ThreadLocalUtil.CACHE.get();
         int unixTime = unixTime();
