@@ -362,19 +362,6 @@ public class SohuController {
         return Response.build(HttpStatus.OK);
     }
     
-    private String getStage8Url() {
-        User user = ThreadLocalUtil.CACHE.get();
-        int unixTime = unixTime();
-        unixTime = 1457452800;
-        
-        String verify = getStage8Verfiy(7, unixTime);
-        String STAGE8_URL_FORMAT = "http://10.4.236.115:8080/sohu/stage7?level=7&username=%s&time=%s&verify=%s";
-        String stage8Url = String.format(STAGE8_URL_FORMAT, user.getUsername(), unixTime, verify);
-        
-        logger.info("stage8 url: {}", stage8Url);
-        return stage8Url;
-    }
-    
     private String getStage8Verfiy(int level, int unixTime) {
         User user = ThreadLocalUtil.CACHE.get();
         
