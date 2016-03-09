@@ -184,5 +184,6 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		});
 	}
 	
+	$scope.stage8QrcodeUrl = Constants.images_path + '/qrcode.png';
 }
 

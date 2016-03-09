@@ -2,7 +2,9 @@ package cn.yeshaoting.jvwa.web.sohu;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
@@ -12,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -37,7 +40,9 @@ import com.google.common.collect.Maps;
 
 import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.mapper.UserMapper;
+import cn.yeshaoting.jvwa.params.Stage8Params;
 import cn.yeshaoting.jvwa.util.IPUtil;
+import cn.yeshaoting.jvwa.util.RequestUtils;
 import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
 import cn.yeshaoting.jvwa.util.interceptor.LoginRequired;
 import cn.yeshaoting.jvwa.util.interceptor.StageValidation;
@@ -77,11 +82,13 @@ public class SohuController {
 
     private static final Map<String, Integer> stage4MoneyMap = Maps.newConcurrentMap();
     private static final Map<Integer, Integer> stage4GoodsMap = Maps.newHashMap();
-    private static final int stage4DefaultMoney = 2000000;
+    private static final int stage4DefaultMoney = 5000000;
 
     private static final Map<String, String> stage6FileMap = Maps.newHashMap();
     
     private static final String STAGE7_IP = "127.0.0.1";
+    
+    private static final int STAGE8_TIME_LIMIT = 120;
 
     @Value("${max_stage}")
     private int MAX_STAGE;
@@ -353,6 +360,103 @@ public class SohuController {
 
         upgrade(7);
         return Response.build(HttpStatus.OK);
+    }
+    
+    @StageValidation(current = 8)
+    @ResponseBody
+    @RequestMapping(value = "stage8/qrcode", produces = "application/json;charset=UTF-8")
+    public void stage8Qrcode(HttpServletResponse response) throws IOException {
+        response.setContentType("image/jpeg");
+        
+        String qrcodeUrl = getQrcodeUrl();
+        logger.info("stage8 qrcode url: {}", qrcodeUrl);
+        
+        URL url = new URL(qrcodeUrl);
+        InputStream in = url.openStream();
+        OutputStream out = response.getOutputStream();
+        
+        byte[] bytes = new byte[1024];
+        int hasRead = 0;
+        while ((hasRead = in.read(bytes)) > 0) {
+            out.write(bytes, 0 ,hasRead);
+        }
+        
+        out.flush();
+        IOUtils.closeQuietly(in);
+        IOUtils.closeQuietly(out);
+    }
+    
+    private String getQrcodeUrl() {
+        String QRCODE_URL_FORMAT = "http://qr.topscan.com/api.php?&w=200&logo=%s&text=%s";
+        String logo = "http://yeshaoting.cn/img/logo.png";
+        //return String.format(QRCODE_URL_FORMAT, logo, URLEncoder.encode(getStage8Url()));
+        return String.format(QRCODE_URL_FORMAT, logo, getStage8Url());
+    }
+    
+    private String getStage8Url() {
+        User user = ThreadLocalUtil.CACHE.get();
+        int unixTime = unixTime();
+        unixTime = 1457452800;
+        
+        String verify = getStage8Verfiy(7, unixTime);
+        String STAGE8_URL_FORMAT = "http://10.4.236.115:8080/sohu/stage7?level=7&username=%s&time=%s&verify=%s";
+        String stage8Url = String.format(STAGE8_URL_FORMAT, user.getUsername(), unixTime, verify);
+        
+        logger.info("stage8 url: {}", stage8Url);
+        return stage8Url;
+    }
+    
+    private String getStage8Verfiy(int level, int unixTime) {
+        User user = ThreadLocalUtil.CACHE.get();
+        
+        Map<String, String> params = Maps.newTreeMap();
+        params.put("level", String.valueOf(level));
+        params.put("username", user.getUsername());
+        params.put("time", String.valueOf(unixTime));
+        
+        String text = RequestUtils.assembleQueryString(params);
+        String stage8Verfiy = DigestUtils.md5Hex(text);
+        
+        logger.info("md5 text: {}, real md5: {}", text, stage8Verfiy);
+        return stage8Verfiy;
+    }
+    
+    /**
+     * 返回当前时间的秒数
+     *
+     * @return
+     */
+    private static int unixTime() {
+        return (int) (System.currentTimeMillis() / 1000);
+    }
+    
+    @StageValidation(current = 8)
+    @ResponseBody
+    @RequestMapping(value = "stage8", produces = "application/json;charset=UTF-8")
+    public String passStage8(Stage8Params params) {
+        int currentUnixTime = unixTime();
+        
+        logger.info("stage8 current time: {}, params: {}", currentUnixTime, JSON.toJSONString(params));
+        if (currentUnixTime - params.getTime() >= STAGE8_TIME_LIMIT) {
+            return "这是一次已经过期的提交，请在2分钟内完成请求提交。";
+        }
+        
+        if (params.getLevel() != 8) {
+            return "小样，试图通过本关突破其他关卡是没用的。";
+        }
+        
+        User user = ThreadLocalUtil.CACHE.get();
+        if (!StringUtils.equals(params.getUsername(), user.getUsername())) {
+            return "别傻了，你在帮别人过关。";
+        }
+        
+        String stage8Verfiy = getStage8Verfiy(params.getLevel(), params.getTime());
+        if (!StringUtils.equals(params.getVerify(), stage8Verfiy)) {
+            return "请求在服务器端验证失败。";
+        }
+        
+        upgrade(8);
+        return "恭喜通关，请通过dashboard页进入下一关。";
     }
 
 }

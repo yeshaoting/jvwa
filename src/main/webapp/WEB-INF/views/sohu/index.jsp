@@ -17,6 +17,7 @@
     server_url : "${server_url}",
     index_url : "${index_url}",
     resources_path : "${resources_path}",
+    images_path : "${images_path}",
     resources_version : "${resources_version}",
     max_stage: "${max_stage}",
   };

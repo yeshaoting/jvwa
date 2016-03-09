@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>JVWA-404页面</title>
-<link rel="stylesheet" type="text/css" href="http://localhost:8080/resources/css/error.css?version=${resources_version}">
+<link rel="stylesheet" type="text/css" href="http://10.4.236.115:8080/resources/css/error.css?version=${resources_version}">
 </head>
 <body>
   <div class="wrong">
@@ -19,7 +19,7 @@
     <div class="wrong_p">
       <p>糟糕，你访问的页面去了别的星球</p>
       <p>
-        你可以<a href="javascript:history.go(-1);">点击返回</a>，或者直接<a href="${index_url}">去首页</a>
+        你可以<a href="javascript:history.go(-1);">点击返回</a>，或者直接<a href="http://10.4.236.115:8080/">去首页</a>
       </p>
     </div>
   </div>
