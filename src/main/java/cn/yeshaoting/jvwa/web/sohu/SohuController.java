@@ -116,11 +116,12 @@ public class SohuController {
         return "sohu/index";
     }
     
+    @ResponseBody
     @RequestMapping(value = "switchOpenStage")
     public String switchOpenStage(Model model) {
         Constants.isOpenStage = !Constants.isOpenStage;
         logger.info("是否开启所有关卡：{}", Constants.isOpenStage);
-        return "sohu/index";
+        return "是否开启所有关卡：" + Constants.isOpenStage;
     }
 
     @RequestMapping(value = "stage/{id}")
