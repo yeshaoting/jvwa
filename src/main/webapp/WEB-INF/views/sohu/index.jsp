@@ -20,6 +20,7 @@
     images_path : "${images_path}",
     resources_version : "${resources_version}",
     max_stage: "${max_stage}",
+    is_open_stage: "${is_open_stage}",
   };
 </script>
 
@@ -118,7 +119,12 @@ window.myCustomTags = [ 'yourCustomDirective', 'somebodyElsesDirective' ]; // op
 
     <!-- Matter -->
     <div class="matter">
-      <div class="container" ui-view></div>
+      <div class="container">
+        <div class="row">
+          <label class="label label-danger" ng-if="is_open_stage"><i class="icon-info-sign"></i> 公告：当前已经开放所有关卡，不再限制权限，快快来体验后面每一关吧。</label>
+          <div ui-view></div>
+        </div>
+      </div>
     </div>
     <!-- Matter ends -->
 

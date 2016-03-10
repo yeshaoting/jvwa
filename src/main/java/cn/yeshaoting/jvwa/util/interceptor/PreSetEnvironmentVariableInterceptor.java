@@ -37,6 +37,8 @@ public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor 
   @Value("${max_stage}")
   private int MAX_STAGE;
   
+  @Value("${open_stage}")
+  private boolean isOpenStage;
   
   private void init(HttpServletRequest request) {
     request.setAttribute("base_url", BASE_URL);
@@ -50,6 +52,7 @@ public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor 
     request.setAttribute("resources_version", RESOURCES_VERSION);
     
     request.setAttribute("max_stage", MAX_STAGE);
+    request.setAttribute("is_open_stage", isOpenStage);
   }
   
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

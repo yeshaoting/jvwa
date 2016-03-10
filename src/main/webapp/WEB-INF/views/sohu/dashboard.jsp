@@ -22,7 +22,18 @@
             <p>
               <h1>欢迎你，<label class="label label-warning" ng-bind="user.username"></label></h1>
               <br/>
-              <h3>当前，你已经闯过 <label class="label label-danger" ng-bind="user.stage"></label> 关!</h3>
+              <h3>当前，你已经闯过 <label class="label label-success" ng-bind="user.stage"></label> 关!</h3>
+            </p>
+            <br/><br/><br/>
+            <p>
+              <div class="pull-left">
+                关卡列表：
+              </div>
+              <div class="list-group-horizontal">
+                <a ng-repeat="i in range(8) track by $index" href="#/stage{{$index+1}}" class="btn stage-item"
+                  ng-class="is_open_stage ? 'btn-info' : ($index + 1 <= user.stage ? 'btn-primary' : 'btn-danger')"><span
+                  ng-bind="$index + 1"></span></a>
+              </div>
             </p>
           </div>
         </div>

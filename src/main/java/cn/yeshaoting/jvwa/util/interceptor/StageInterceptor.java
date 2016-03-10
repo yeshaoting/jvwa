@@ -21,6 +21,9 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
 
     @Value("${server_url}")
     private String serverUrl;
+    
+    @Value("${open_stage}")
+    private boolean isOpenStage;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
@@ -36,12 +39,13 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
         }
 
         User user = ThreadLocalUtil.CACHE.get();
-        if (user.getStage() + 1 < stageAnnotation.current()) {
+        if (!isOpenStage && user.getStage() + 1 < stageAnnotation.current()) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     stageAnnotation.current());
             throw new AuthorizedException("无权限访问的关卡！");
         }
 
+        logger.info(serverUrl);
         return true;
     }
 }

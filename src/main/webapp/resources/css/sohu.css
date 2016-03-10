@@ -20,3 +20,13 @@
   font-size: 14px;
   font-weight:bold;
 }
+
+
+.list-group-horizontal .stage-item {
+    display: inline-block;
+}
+.list-group-horizontal .stage-item {
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 0;
+}

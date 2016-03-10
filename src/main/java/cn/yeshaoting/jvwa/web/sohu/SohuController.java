@@ -2,9 +2,7 @@ package cn.yeshaoting.jvwa.web.sohu;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
@@ -92,6 +90,9 @@ public class SohuController {
 
     @Value("${max_stage}")
     private int MAX_STAGE;
+    
+    @Value("${open_stage}")
+    private boolean isOpenStage;
 
     @Resource
     private JdbcTemplate jdbcTemplate;
@@ -101,7 +102,7 @@ public class SohuController {
     
     @Resource
     private HttpServletRequest request;
-
+    
     @PostConstruct
     public void init() {
         stage4GoodsMap.put(1, 199);
@@ -125,7 +126,7 @@ public class SohuController {
 
         boolean debug = false;
         User user = ThreadLocalUtil.CACHE.get();
-        if (!debug && user.getStage() + 1 < id) {
+        if (!isOpenStage && !debug && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     id);
             return "sohu/unauthoritied";
@@ -175,6 +176,11 @@ public class SohuController {
     }
 
     private void upgrade(int current) {
+        if (isOpenStage) {
+            logger.debug("开放所有关卡，不再记录用户闯关情况！");
+            return;
+        }
+        
         User user = ThreadLocalUtil.CACHE.get();
         if (user.getStage() < current) {
             user.setStage(user.getStage() + 1);
