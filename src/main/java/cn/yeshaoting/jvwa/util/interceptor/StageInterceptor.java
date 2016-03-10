@@ -45,7 +45,8 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
             throw new AuthorizedException("无权限访问的关卡！");
         }
 
-        logger.info(serverUrl);
+        String url = request.getRequestURL().toString();
+        logger.info("current username: {}, requesting url: {}", user.getUsername(), url);
         return true;
     }
 }
