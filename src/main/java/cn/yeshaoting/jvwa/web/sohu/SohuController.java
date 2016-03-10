@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 
+import cn.yeshaoting.jvwa.context.Constants;
 import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.mapper.UserMapper;
 import cn.yeshaoting.jvwa.params.Stage8Params;
@@ -91,9 +92,6 @@ public class SohuController {
     @Value("${max_stage}")
     private int MAX_STAGE;
     
-    @Value("${open_stage}")
-    private boolean isOpenStage;
-
     @Resource
     private JdbcTemplate jdbcTemplate;
 
@@ -120,7 +118,8 @@ public class SohuController {
     
     @RequestMapping(value = "switchOpenStage")
     public String switchOpenStage(Model model) {
-        isOpenStage = !isOpenStage;
+        Constants.isOpenStage = !Constants.isOpenStage;
+        logger.info("是否开启所有关卡：{}", Constants.isOpenStage);
         return "sohu/index";
     }
 
@@ -131,7 +130,7 @@ public class SohuController {
         }
 
         User user = ThreadLocalUtil.CACHE.get();
-        if (!isOpenStage && user.getStage() + 1 < id) {
+        if (!Constants.isOpenStage && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     id);
             return "sohu/unauthoritied";
@@ -181,7 +180,7 @@ public class SohuController {
     }
 
     private void upgrade(int current) {
-        if (isOpenStage) {
+        if (Constants.isOpenStage) {
             logger.debug("开放所有关卡，不再记录用户闯关情况！");
             return;
         }

@@ -31,5 +31,8 @@ public class Constants {
   
   // 默认的认证过期时间，默认7天
   public final static int REMEMBER_AUTH_EXPIRY = 7 * 24 * 60 * 60;
+
+  // 是否开放所有关卡
+  public static boolean isOpenStage = false;
   
 }

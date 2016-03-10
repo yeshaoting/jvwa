@@ -11,6 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSON;
 
+import cn.yeshaoting.jvwa.context.Constants;
 import cn.yeshaoting.jvwa.entity.User;
 import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
 import cn.yeshaoting.jvwa.util.exception.AuthorizedException;
@@ -22,9 +23,6 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
     @Value("${server_url}")
     private String serverUrl;
     
-    @Value("${open_stage}")
-    private boolean isOpenStage;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) throws Exception {
@@ -39,7 +37,7 @@ public class StageInterceptor extends HandlerInterceptorAdapter {
         }
 
         User user = ThreadLocalUtil.CACHE.get();
-        if (!isOpenStage && user.getStage() + 1 < stageAnnotation.current()) {
+        if (!Constants.isOpenStage && user.getStage() + 1 < stageAnnotation.current()) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     stageAnnotation.current());
             throw new AuthorizedException("无权限访问的关卡！");

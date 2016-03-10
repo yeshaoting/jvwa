@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.yeshaoting.jvwa.context.Constants;
+
 public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor {
   
   @Value("${base_url}")
@@ -37,9 +39,6 @@ public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor 
   @Value("${max_stage}")
   private int MAX_STAGE;
   
-  @Value("${open_stage}")
-  private boolean isOpenStage;
-  
   private void init(HttpServletRequest request) {
     request.setAttribute("base_url", BASE_URL);
     request.setAttribute("server_url", SERVER_URL);
@@ -52,7 +51,7 @@ public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor 
     request.setAttribute("resources_version", RESOURCES_VERSION);
     
     request.setAttribute("max_stage", MAX_STAGE);
-    request.setAttribute("is_open_stage", isOpenStage);
+    request.setAttribute("is_open_stage", Constants.isOpenStage);
   }
   
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
