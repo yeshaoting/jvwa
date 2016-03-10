@@ -30,7 +30,7 @@
                 关卡列表：
               </div>
               <div class="list-group-horizontal">
-                <a ng-repeat="i in range(8) track by $index" href="#/stage{{$index+1}}" class="btn stage-item"
+                <a ng-repeat="i in range() track by $index" href="#/stage{{$index+1}}" class="btn stage-item"
                   ng-class="is_open_stage ? 'btn-info' : ($index + 1 <= user.stage ? 'btn-primary' : 'btn-danger')"><span
                   ng-bind="$index + 1"></span></a>
               </div>

@@ -10,8 +10,8 @@ function MainCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	$scope.max_stage = Constants.max_stage;
 	$scope.is_open_stage = Constants.is_open_stage;
 
-	$scope.range = function(n) {
-        return new Array(n);
+	$scope.range = function() {
+        return new Array($scope.max_stage);
     };
     
 	$scope.checkUserInfo = function() {

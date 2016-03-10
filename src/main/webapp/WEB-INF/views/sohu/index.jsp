@@ -19,8 +19,8 @@
     resources_path : "${resources_path}",
     images_path : "${images_path}",
     resources_version : "${resources_version}",
-    max_stage: "${max_stage}",
-    is_open_stage: "${is_open_stage}",
+    max_stage: ${max_stage},
+    is_open_stage: ${is_open_stage},
   };
 </script>
 
