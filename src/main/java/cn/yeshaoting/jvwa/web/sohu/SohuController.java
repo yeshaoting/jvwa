@@ -117,6 +117,12 @@ public class SohuController {
     public String index(Model model) {
         return "sohu/index";
     }
+    
+    @RequestMapping(value = "switchOpenStage")
+    public String switchOpenStage(Model model) {
+        isOpenStage = !isOpenStage;
+        return "sohu/index";
+    }
 
     @RequestMapping(value = "stage/{id}")
     public String index(@PathVariable(value = "id") int id, Model model) {
@@ -124,9 +130,8 @@ public class SohuController {
             return "sohu/dashboard";
         }
 
-        boolean debug = false;
         User user = ThreadLocalUtil.CACHE.get();
-        if (!isOpenStage && !debug && user.getStage() + 1 < id) {
+        if (!isOpenStage && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     id);
             return "sohu/unauthoritied";
