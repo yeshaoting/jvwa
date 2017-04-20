@@ -15,13 +15,15 @@
 
       <!-- Links -->
       <ul class="nav navbar-nav pull-right">
+        <li class="dropdown pull-right">
+          <a target="_blank" href="http://x.sankuai.com/chat/598487?type=chat"><i class="icon-github-alt"></i> 大象咨询：叶绍亭</a>
+        </li>
         <li class="dropdown pull-right"><a data-toggle="collapse" class="dropdown-toggle" href="#"
           aria-expanded="true"> <i class="icon-user"></i> ${username } <b class="caret"></b>
         </a> <!-- Dropdown menu -->
           <ul class="dropdown-menu">
             <li><a href="${server_url}/user/logout" target="_self"><i class="icon-off"></i> 退出</a></li>
           </ul></li>
-
       </ul>
     </nav>
 

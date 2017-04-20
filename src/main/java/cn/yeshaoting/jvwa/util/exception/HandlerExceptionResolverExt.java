@@ -49,7 +49,8 @@ public class HandlerExceptionResolverExt implements HandlerExceptionResolver {
             }
 
             if (handlerMethod == null) {
-                throw new IllegalStateException("handler is not a handler method!");
+                logger.info("handler is not a handler method!");
+                return new ModelAndView(DEFAULT_VIEW_NAME);
             }
 
             Method method = handlerMethod.getMethod();
