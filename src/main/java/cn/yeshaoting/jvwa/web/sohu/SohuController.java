@@ -189,7 +189,7 @@ public class SohuController {
         User user = ThreadLocalUtil.CACHE.get();
         if (user.getStage() < current) {
             user.setStage(user.getStage() + 1);
-            userMapper.replace(user);
+            userMapper.update(user);
         }
 
     }

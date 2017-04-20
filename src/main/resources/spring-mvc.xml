@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <context:property-placeholder ignore-resource-not-found="true"
+  <context:property-placeholder ignore-resource-not-found="true" file-encoding="UTF-8"
     location="classpath*:app.properties,classpath*:app-db.properties" />
 
   <!-- Enables the Spring MVC @Controller programming model -->

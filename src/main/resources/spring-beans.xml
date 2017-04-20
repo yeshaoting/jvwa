@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-  <context:property-placeholder ignore-resource-not-found="true"
+  <context:property-placeholder ignore-resource-not-found="true" file-encoding="UTF-8"
     location="classpath*:app.properties,classpath*:app-db.properties" />
 
   <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->

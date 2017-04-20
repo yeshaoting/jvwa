@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +66,7 @@ public class UserController {
         if (existedUser == null) {
             User user = new User();
             user.setUsername(username);
-            userMapper.replace(user);
+            userMapper.insert(user);
             logger.info("成功登记用户: {}", JSON.toJSONString(user));
         } else {
             logger.info("用户名 {} 已经登记，直接进入！", username);
