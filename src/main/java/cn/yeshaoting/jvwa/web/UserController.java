@@ -3,6 +3,7 @@ package cn.yeshaoting.jvwa.web;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,12 @@ public class UserController {
             Model model, HttpServletResponse response) {
         if (StringUtils.isEmpty(username)) {
             model.addAttribute("errorMsg", "用户名不允许为空!");
+            return "login";
+        }
+        
+        String usernameAfterEscape = StringEscapeUtils.escapeHtml4(username);
+        if (!StringUtils.equals(username, usernameAfterEscape)) {
+            model.addAttribute("errorMsg", "用户名不允许包含非法字符!");
             return "login";
         }
 
