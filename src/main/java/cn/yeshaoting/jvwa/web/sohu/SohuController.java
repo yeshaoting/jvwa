@@ -65,7 +65,7 @@ public class SohuController {
     /**
      * 禁止登录的用户名
      */
-    private static final String USERNAME = "laogong-wangsicong@163.com";
+    private static final String FORBIDDEN_USERNAME = "laogong-wangsicong@163.com";
 
     /**
      * 正则表达式：验证手机号
@@ -160,8 +160,8 @@ public class SohuController {
             String sql = String.format(LOGIN_SQL_FORMAT, username, password);
 
             logger.info("debug sql: {}", sql);
-            if (StringUtils.equals(username, USERNAME)) {
-                logger.warn("forbid username: {}", USERNAME);
+            if (StringUtils.equals(username, FORBIDDEN_USERNAME)) {
+                logger.warn("forbid username: {}", FORBIDDEN_USERNAME);
                 return Response.build(HttpStatus.BAD_REQUEST, "禁止登录的用户！");
             }
 
