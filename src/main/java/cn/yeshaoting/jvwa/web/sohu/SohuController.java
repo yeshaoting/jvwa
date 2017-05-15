@@ -216,6 +216,17 @@ public class SohuController {
                 stage4DefaultMoney);
         return Response.build("成功查询所拥有的虚拟货币", money);
     }
+    
+    @StageValidation(current = 4)
+    @ResponseBody
+    @RequestMapping(value = "reset/stage4/money", produces = "application/json;charset=UTF-8")
+    public Response<String> resetStage4Money(@RequestParam(value = "username", required = true) String username) {
+        if (stage4MoneyMap.containsKey(username)) {
+            stage4MoneyMap.remove(username);
+        }
+        
+        return Response.build("成功重置所拥有的虚拟货币", username);
+    }
 
     @StageValidation(current = 4)
     @ResponseBody
