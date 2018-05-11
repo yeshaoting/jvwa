@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <!-- Copyright info -->
         <p class="copy">
-          Copyright &copy; 2016 | <a href="http://yeshaoting.cn">http://yeshaoting.cn</a>
+          Copyright &copy; 2018 | <a href="http://yeshaoting.cn">http://yeshaoting.cn</a>
         </p>
       </div>
     </div>

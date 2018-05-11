@@ -95,7 +95,7 @@ public class RequestUtils {
     cookie.setMaxAge(maxAge);
     // 项目所有目录均有效，这句很关键，否则不敢保证删除
     cookie.setPath("/");
-    cookie.setDomain(".sohu.com");
+    cookie.setDomain(".security.com");
     response.addCookie(cookie);
   }
 
@@ -114,7 +114,7 @@ public class RequestUtils {
     cookie.setMaxAge(0);
     // 项目所有目录均有效，这句很关键，否则不敢保证删除
     cookie.setPath("/");
-    cookie.setDomain(".sohu.com");
+    cookie.setDomain(".security.com");
     response.addCookie(cookie);
   }
 

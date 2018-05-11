@@ -8,7 +8,7 @@ function AdminCtrl($http, $scope, $rootScope, $http, $log, $state, $location) {
 	$scope.stage3Upgrade = function() {
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/stage3/pass'
+			url : Constants.server_url + '/security/stage3/pass'
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				console.log(response.data.statusText);

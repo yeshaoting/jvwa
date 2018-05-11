@@ -21,7 +21,7 @@ public class IndexController {
     
     @RequestMapping(value = { "", "index" })
     public String index(Model model) {
-        return "redirect:" + serverUrl + "/sohu/index";
+        return "redirect:" + serverUrl + "/security/index";
     }
 
 }

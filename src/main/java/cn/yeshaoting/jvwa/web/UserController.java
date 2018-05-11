@@ -74,13 +74,13 @@ public class UserController {
             User user = new User();
             user.setUsername(username);
             userMapper.insert(user);
-            logger.info("成功登记用户: {}", JSON.toJSONString(user));
+            logger.info("成功登记用户: {}", username);
         } else {
             logger.info("用户名 {} 已经登记，直接进入！", username);
         }
 
         CookieUtils.addCookie(Constants.AUTH_COOKIE_KEY, username, -1, response);
-        return "redirect:" + serverUrl + "/sohu/index";
+        return "redirect:" + serverUrl + "/security/index";
     }
 
     @LoginRequired

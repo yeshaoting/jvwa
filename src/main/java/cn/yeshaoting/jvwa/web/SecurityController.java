@@ -1,4 +1,4 @@
-package cn.yeshaoting.jvwa.web.sohu;
+package cn.yeshaoting.jvwa.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,14 +53,14 @@ import cn.yeshaoting.jvwa.vo.Response;
  * @date Mar 4, 2016 9:02:21 PM
  */
 @Controller
-@RequestMapping("sohu")
+@RequestMapping("security")
 @SuppressWarnings("rawtypes")
 @LoginRequired
-public class SohuController {
+public class SecurityController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String LOGIN_SQL_FORMAT = "select count(id) from user2 where username = '%s' and password = '%s'";
+    private static final String LOGIN_SQL_FORMAT = "select count(id) from jvwa_user2 where username = '%s' and password = '%s'";
 
     /**
      * 禁止登录的用户名
@@ -113,7 +113,7 @@ public class SohuController {
 
     @RequestMapping(value = { "", "index" })
     public String index(Model model) {
-        return "sohu/index";
+        return "security/index";
     }
     
     @ResponseBody
@@ -127,18 +127,18 @@ public class SohuController {
     @RequestMapping(value = "stage/{id}")
     public String index(@PathVariable(value = "id") int id, Model model) {
         if (id <= 0 || id > MAX_STAGE) {
-            return "sohu/dashboard";
+            return "security/dashboard";
         }
 
         User user = ThreadLocalUtil.CACHE.get();
         if (!Constants.isOpenStage && user.getStage() + 1 < id) {
             logger.warn("user: {} try to access unauthoritied stage: {}", JSON.toJSONString(user),
                     id);
-            return "sohu/unauthoritied";
+            return "security/unauthoritied";
         }
 
         model.addAttribute("id", id);
-        return "sohu/stage" + id;
+        return "security/stage" + id;
     }
 
     @StageValidation(current = 1)
@@ -190,6 +190,7 @@ public class SohuController {
         if (user.getStage() < current) {
             user.setStage(user.getStage() + 1);
             userMapper.update(user);
+            logger.info("成功更新用户 {} 关卡为 {}", user.getUsername(), user.getStage());
         }
 
     }
@@ -197,7 +198,7 @@ public class SohuController {
     @StageValidation(current = 3)
     @RequestMapping(value = { "admin", "admin/index" })
     public String admin() {
-        return "sohu/admin";
+        return "security/admin";
     }
 
     @StageValidation(current = 3)
@@ -223,6 +224,7 @@ public class SohuController {
     public Response<String> resetStage4Money(@RequestParam(value = "username", required = true) String username) {
         if (stage4MoneyMap.containsKey(username)) {
             stage4MoneyMap.remove(username);
+            logger.info("成功重置所拥有的虚拟货币, username={}", username);
         }
         
         return Response.build("成功重置所拥有的虚拟货币", username);
@@ -240,6 +242,11 @@ public class SohuController {
         User user = ThreadLocalUtil.CACHE.get();
         int money = MapUtils.getIntValue(stage4MoneyMap, user.getUsername(), stage4DefaultMoney);
         if (money < stage4GoodsMap.get(id)) {
+            if (id == 1) {
+                resetStage4Money(user.getUsername());
+                return Response.build(HttpStatus.BAD_REQUEST, "很抱歉，你现有虚拟货币无法完成本关，系统已经自动帮你重置货币！");
+            }
+
             return Response.build(HttpStatus.BAD_REQUEST, "很抱歉，你的虚拟货币不足以购买此件商品！");
         }
 

@@ -46,7 +46,7 @@
             </tr>
             <tr>
               <td><label class="label label-success" ng-bind="user.username"></label></td>
-              <td><span ng-bind="user.stage"</span></td>
+              <td><span ng-bind="user.stage"></span></td>
               <td>
                 <a href="" title="升级" ng-click="stage3Upgrade()">升级</a> |
                 <a href="#reset" title="重置比分">重置比分</a> |

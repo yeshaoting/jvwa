@@ -19,7 +19,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		if (stage1Username == $scope.stage1Username && state1Password == $scope.state1Password) {
 			$http({
 				method : 'POST',
-				url : Constants.server_url + '/sohu/stage1/pass'
+				url : Constants.server_url + '/security/stage1/pass'
 			}).then(function successCallback(response) {
 				if (response.data.status != 200) {
 					console.log(response.data.statusText);
@@ -46,7 +46,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/stage2?' + $.param(params, true)
+			url : Constants.server_url + '/security/stage2?' + $.param(params, true)
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				console.log(response.data.statusText);
@@ -66,7 +66,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	$scope.sendSmsCode = function() {
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/sms/code/send?phone=' + $scope.phone
+			url : Constants.server_url + '/security/sms/code/send?phone=' + $scope.phone
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error(response.data.statusText);
@@ -88,7 +88,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/stage4/pass?' + $.param(params, true)
+			url : Constants.server_url + '/security/stage4/pass?' + $.param(params, true)
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error(response.data.statusText);
@@ -107,7 +107,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		$timeout(function() {
 			$http({
 				method : 'GET',
-				url : Constants.server_url + '/sohu/stage4/money',
+				url : Constants.server_url + '/security/stage4/money',
 			}).success(function(text, status, headers, config) {
 				if (text.status != 200) {
 					Notify.error(text.statusText);
@@ -134,7 +134,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		}
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/sms/code/verfiy?' + $.param(params, true)
+			url : Constants.server_url + '/security/sms/code/verfiy?' + $.param(params, true)
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error(response.data.statusText);
@@ -149,11 +149,11 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 		
 	}
 	
-	$scope.image_url = Constants.server_url + '/sohu/stage6.php?file=../image.jpg';
+	$scope.image_url = Constants.server_url + '/security/stage6.php?file=../image.jpg';
 	$scope.checkSecureCode = function() {
 		$http({
 			method : 'POST',
-			url : Constants.server_url + '/sohu/checkSecureCode?code=' + $scope.secureCode
+			url : Constants.server_url + '/security/checkSecureCode?code=' + $scope.secureCode
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error(response.data.statusText);
@@ -170,7 +170,7 @@ function StageCtrl($http, $scope, $rootScope, $http, $log, $state, $timeout) {
 	$scope.checkStage7Right = function() {
 		$http({
 			method : 'GET',
-			url : Constants.server_url + '/sohu/checkStage7Right'
+			url : Constants.server_url + '/security/checkStage7Right'
 		}).then(function successCallback(response) {
 			if (response.data.status != 200) {
 				Notify.error("抱歉：你不是来自于127.0.0.1的访客。");

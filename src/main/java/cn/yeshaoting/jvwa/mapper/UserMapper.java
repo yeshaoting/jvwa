@@ -16,17 +16,17 @@ import cn.yeshaoting.jvwa.entity.User;
  */
 public interface UserMapper {
 
-    @Insert("insert into user(username, stage, create_time, update_time) values(#{user.username}, #{user.stage}, unix_timestamp(), unix_timestamp())")
+    @Insert("insert into jvwa_user(username, stage, create_time, update_time) values(#{user.username}, #{user.stage}, unix_timestamp(), unix_timestamp())")
     @ResultType(java.lang.Integer.class)
     @Options(useCache = true, useGeneratedKeys = true, keyProperty = "user.id", keyColumn = "id")
     int insert(@Param("user") User user);
     
-    @Insert("update user set stage = #{user.stage}, update_time = unix_timestamp() where username = #{user.username}")
+    @Insert("update jvwa_user set stage = #{user.stage}, update_time = unix_timestamp() where username = #{user.username}")
     @ResultType(java.lang.Integer.class)
     @Options(useCache = true)
     int update(@Param("user") User user);
 
-    @Select("select id, username, stage, create_time createTime, update_time updateTime from user where username = #{username}")
+    @Select("select id, username, stage, create_time createTime, update_time updateTime from jvwa_user where username = #{username}")
     @ResultType(User.class)
     @Options(useCache = true)
     User findUserByUsername(@Param("username") String username);

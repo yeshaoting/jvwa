@@ -19,13 +19,13 @@ CREATE SCHEMA `jvwa` DEFAULT CHARACTER SET utf8mb4 ;
 use `jvwa`
 
 --
--- Table structure for table `user`
+-- Table structure for table `jvwa_user`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `jvwa_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE `jvwa_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
   `stage` tinyint(4) NOT NULL DEFAULT '0',
@@ -38,13 +38,13 @@ CREATE TABLE `user` (
 
 
 --
--- Table structure for table `user2`
+-- Table structure for table `jvwa_user2`
 --
 
-DROP TABLE IF EXISTS `user2`;
+DROP TABLE IF EXISTS `jvwa_user2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user2` (
+CREATE TABLE `jvwa_user2` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL COMMENT '用户名',
   `password` varchar(45) NOT NULL COMMENT '密码',
@@ -54,13 +54,13 @@ CREATE TABLE `user2` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user2`
+-- Dumping data for table `jvwa_user2`
 --
 
-LOCK TABLES `user2` WRITE;
-/*!40000 ALTER TABLE `user2` DISABLE KEYS */;
-INSERT  IGNORE INTO `user2` (`id`, `username`, `password`) VALUES (1,'laogong-wangsicong@163.com','all_of_them_are_poor_to_me');
-/*!40000 ALTER TABLE `user2` ENABLE KEYS */;
+LOCK TABLES `jvwa_user2` WRITE;
+/*!40000 ALTER TABLE `jvwa_user2` DISABLE KEYS */;
+INSERT  IGNORE INTO `jvwa_user2` (`id`, `username`, `password`) VALUES (1,'laogong-wangsicong@163.com','all_of_them_are_poor_to_me');
+/*!40000 ALTER TABLE `jvwa_user2` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

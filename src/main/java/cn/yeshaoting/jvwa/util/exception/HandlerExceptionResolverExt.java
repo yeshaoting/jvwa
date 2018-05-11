@@ -59,7 +59,7 @@ public class HandlerExceptionResolverExt implements HandlerExceptionResolver {
             // 页面请求异常处理
             if (annotation == null) {
                 if (ex instanceof AuthorizedException) {
-                    return new ModelAndView("sohu/unauthoritied");
+                    return new ModelAndView("security/unauthoritied");
                 }
                 
                 return new ModelAndView(DEFAULT_VIEW_NAME);

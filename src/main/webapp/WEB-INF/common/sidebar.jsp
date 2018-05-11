@@ -7,23 +7,12 @@
   </div>
 
 
-  <!-- <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-    <span translate="aside.nav.HEADER">Navigation</span>
-  </li> -->
-
-
   <!--- Sidebar navigation -->
   <!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
   <ul id="nav">
     <!-- Main menu with font awesome icon -->
     <li>
       <a class="dashboard" ng-class="{open:$state.includes('dashboard')}" ui-sref="dashboard" href="#/dashboard"><i class="icon-dashboard"></i> 首页</a>
-      <!-- Sub menu markup 
-            <ul>
-              <li><a href="#">Submenu #1</a></li>
-              <li><a href="#">Submenu #2</a></li>
-              <li><a href="#">Submenu #3</a></li>
-            </ul>-->
     </li>
 
     <li>
@@ -35,22 +24,6 @@
       <a class="module" ng-class="{open:$state.includes('module')}" ui-sref="module.list" href="#/module/list"><i class="icon-folder-close"></i>
         模块管理</a>
     </li>
-
-    <!-- <li class="module" class="has_sub" ng-class="{active:$state.includes('module')}">
-      <a ng-class="{open:$state.includes('module')}" class="{{$state.includes('module') ? 'subdrop' : ''}}" href=""><i class="icon-list-alt"></i>
-        模块管理 <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
-      <ul>
-        <li ui-sref-active="active">
-          <a ui-sref="module.slider" href="#/module/slider">焦点图模块</a>
-        </li>
-        <li ui-sref-active="active">
-          <a ui-sref="module.topic" href="#/module/topic">专题模块</a>
-        </li>
-        <li ui-sref-active="active">
-          <a ui-sref="module.section" href="#/module/section">栏目模块</a>
-        </li>
-      </ul>
-    </li> -->
 
     <li>
       <a class="content" ng-class="{open:$state.includes('content')}" ui-sref="content" href="#/content"><i class="icon-reorder"></i> 内容管理</a>
