@@ -16,7 +16,7 @@
       <!-- Links -->
       <ul class="nav navbar-nav pull-right">
         <li class="dropdown pull-right">
-          <a target="_blank" href="#"><i class="icon-github-alt"></i> Lark咨询：叶绍亭(yeshaoting)</a>
+          <a target="_blank" href="#"><i class="icon-github-alt"></i> IM咨询：叶绍亭(yeshaoting)</a>
         </li>
         <li class="dropdown pull-right"><a data-toggle="collapse" class="dropdown-toggle" href="#"
           aria-expanded="true"> <i class="icon-user"></i> ${username } <b class="caret"></b>
