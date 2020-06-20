@@ -5,10 +5,12 @@ import cn.yeshaoting.jvwa.util.interceptor.LoginInterceptor;
 import cn.yeshaoting.jvwa.util.interceptor.StageInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import javax.annotation.Priority;
 
@@ -19,8 +21,6 @@ import javax.annotation.Priority;
 */
 @Slf4j
 @Configuration(value = "jvwaConfig}")
-//@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@EnableAutoConfiguration
 @Priority(Ordered.HIGHEST_PRECEDENCE)
 public class JVWAConfiguration {
 //    extends WebMvcConfigurationSupport {
@@ -30,7 +30,7 @@ public class JVWAConfiguration {
 //    public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new LoginInterceptor());
 //        registry.addInterceptor(new StageInterceptor());
-//        registry.addInterceptor(new EnvironmentInterceptor());
+//        registry.addWebRequestInterceptor(new EnvironmentInterceptor()).addPathPatterns("/**").order(0);
 //    }
 
 //    @Bean

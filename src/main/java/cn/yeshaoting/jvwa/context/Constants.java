@@ -22,7 +22,7 @@ public class Constants {
   // 分页最大内容数据
   public final static int MAX_CONTENT_SIZE = 2000;
   
-  public final static String AUTH_COOKIE_KEY = "auth-info";
+  public final static String AUTH_COOKIE_KEY = "jvwa_auth_token";
   
   public final static String AUTH_INFO_FIELD_SEP = "|";
   
