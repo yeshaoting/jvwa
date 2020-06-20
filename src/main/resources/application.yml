@@ -1,0 +1,34 @@
+server:
+  port: 8080
+  context: ''
+  host: localhost
+  servlet:
+    context-path: /
+  jetty:
+    max-http-form-post-size: 52428800
+    threads:
+      acceptors: 120
+      selectors: 4
+
+
+base_url: http://${server.host}:${server.port}
+file:
+  upload:
+    max_size: 52428800
+
+server_url: ${base_url}
+styles_path: ${resources_path}/css
+images_path: ${resources_path}/img
+index_url: ${server_url}/index
+max_stage: 8
+
+resources_path: ${server_url}/resources
+resources_version: 1.0.0
+scripts_path: ${resources_path}/js
+
+mapper:
+  identity: MYSQL
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+
+

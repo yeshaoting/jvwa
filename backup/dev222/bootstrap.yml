@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: pipo.channel.scb
+spring.cloud.config.enabled: false
+
+consul:
+  proxy:
+    enabled: false
