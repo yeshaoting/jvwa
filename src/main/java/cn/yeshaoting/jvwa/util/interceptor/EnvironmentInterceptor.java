@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.yeshaoting.jvwa.context.Constants;
 
-public class PreSetEnvironmentVariableInterceptor implements HandlerInterceptor {
+public class EnvironmentInterceptor implements HandlerInterceptor {
   
   @Value("${base_url}")
   private String BASE_URL;

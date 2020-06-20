@@ -1,8 +1,10 @@
 package cn.yeshaoting.jvwa.util.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import cn.yeshaoting.jvwa.context.Constants;
+import cn.yeshaoting.jvwa.entity.User;
+import cn.yeshaoting.jvwa.mapper.UserMapper;
+import cn.yeshaoting.jvwa.util.CookieUtils;
+import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import cn.yeshaoting.jvwa.context.Constants;
-import cn.yeshaoting.jvwa.entity.User;
-import cn.yeshaoting.jvwa.mapper.UserMapper;
-import cn.yeshaoting.jvwa.util.CookieUtils;
-import cn.yeshaoting.jvwa.util.ThreadLocalUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class AccessInterceptor extends HandlerInterceptorAdapter {
+public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -28,15 +27,13 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private UserMapper userMapper;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-            Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler == null || !(handler instanceof HandlerMethod)) {
             return true;
         }
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        LoginRequired clazzAnnotation = handlerMethod.getBean().getClass()
-                .getAnnotation(LoginRequired.class);
+        LoginRequired clazzAnnotation = handlerMethod.getBean().getClass().getAnnotation(LoginRequired.class);
         LoginRequired methodAnnotation = handlerMethod.getMethodAnnotation(LoginRequired.class);
         if (clazzAnnotation == null && methodAnnotation == null) {
             return true;
