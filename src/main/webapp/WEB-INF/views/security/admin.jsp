@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 
-<script type="text/javascript" src="${scripts_path}/admin-ctrl.js?version=${resources_version}"></script>
+<script type="text/javascript" src="${resources_path}/js/admin-ctrl.js?version=${resources_version}"></script>
 <div class="row" ng-controller="AdminCtrl">
   <div class="col-md-6">
 

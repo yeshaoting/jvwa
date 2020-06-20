@@ -2,4 +2,8 @@
 spring:
   application:
     name: jvwa
-
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java,src/main/resources
+      exclude: src/webapp/resources,static/**,public/**

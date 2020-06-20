@@ -121,8 +121,8 @@
 <script type="text/javascript"
         src="${resources_path}/js/bootstrap/js/bootstrap.js?version=${resources_version}"></script>
 <!-- noty -->
-<script type="text/javascript"
-        src="${resources_path}/js/noty/packaged/jquery.noty.packaged.js?version=${resources_version}"></script>
+<link href="${resources_path}/js/noty/noty.css?version=${resources_version}" rel="stylesheet">
+<script src="${resources_path}/js/noty/noty.js?version=${resources_version}"></script>
 <!-- custom utils -->
 <script type="text/javascript" src="${resources_path}/js/notify.js?version=${resources_version}"></script>
 <!-- login -->

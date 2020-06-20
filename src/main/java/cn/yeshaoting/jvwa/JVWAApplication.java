@@ -20,7 +20,6 @@ public class JVWAApplication {
 
     public static void main(final String[] args) {
         log.info("start jvwa application");
-        System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(JVWAApplication.class, args);
         log.info("finish jvwa application");
     }

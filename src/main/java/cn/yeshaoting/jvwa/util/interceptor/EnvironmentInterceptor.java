@@ -23,15 +23,6 @@ public class EnvironmentInterceptor implements HandlerInterceptor {
     @Value("${resources_path}")
     private String RESOURCES_PATH;
 
-    @Value("${scripts_path}")
-    private String SCRIPTS_PATH;
-
-    @Value("${styles_path}")
-    private String STYLES_PATH;
-
-    @Value("${images_path}")
-    private String IMAGES_PATH;
-
     @Value("${resources_version}")
     private String RESOURCES_VERSION;
 
@@ -44,9 +35,6 @@ public class EnvironmentInterceptor implements HandlerInterceptor {
         request.setAttribute("index_url", INDEX_URL);
 
         request.setAttribute("resources_path", RESOURCES_PATH);
-        request.setAttribute("scripts_path", SCRIPTS_PATH);
-        request.setAttribute("styles_path", STYLES_PATH);
-        request.setAttribute("images_path", IMAGES_PATH);
         request.setAttribute("resources_version", RESOURCES_VERSION);
 
         request.setAttribute("max_stage", MAX_STAGE);

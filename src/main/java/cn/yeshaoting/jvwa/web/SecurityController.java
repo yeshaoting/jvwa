@@ -75,7 +75,7 @@ public class SecurityController {
     /**
      * 初始短信验证码
      */
-    private static AtomicInteger SMS_CODE = new AtomicInteger(RandomUtils.nextInt(100, 999));
+    private static AtomicInteger SMS_CODE = new AtomicInteger(RandomUtils.nextInt(500, 999));
 
     private static final String STAGE6_CODE = "sATa3HGe6";
 
@@ -310,7 +310,7 @@ public class SecurityController {
      */
     private void changeSmsCode() {
         int originSmsCode = SMS_CODE.get();
-        SMS_CODE = new AtomicInteger(RandomUtils.nextInt(100, 999));
+        SMS_CODE = new AtomicInteger(RandomUtils.nextInt(500, 999));
         logger.warn("origin sms code: {}, current sms code: {}", originSmsCode, SMS_CODE);
     }
 

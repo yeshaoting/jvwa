@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 
-<div class="row" ng-controller="StageCtrl">
+<div class="row" ng-controller="StageCtrl" style="margin-top: -70px;">
   <div class="col-md-6">
 
     <!-- Widget -->
@@ -27,12 +27,12 @@
             </p>
             <hr />
             <p class="center">
-            <img title="这个页面暗藏玄机" ng-src="{{image_url}}" width="500" />
+            <img title="这个页面暗藏玄机" ng-src="{{image_url}}" width="400" />
             <form class="form-horizontal" role="form">
               <div class="form-group">
                 <label for="secureCode" class="col-lg-3 control-label">密码：</label>
                 <div class="col-lg-8">
-                  <input ng-model="secureCode" type="text" class="form-control" id="secureCode" placeholder="密码">
+                  <input ng-model="secureCode" type="password" class="form-control" id="secureCode" placeholder="密码">
                 </div>
               </div>
             </form>

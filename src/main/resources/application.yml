@@ -25,9 +25,6 @@ base_url: http://${server.host}:${server.port}
 server_url: ${base_url}
 index_url: ${server_url}/index
 resources_path: ${server_url}/resources
-styles_path: ${resources_path}/css
-images_path: ${resources_path}/img
-scripts_path: ${resources_path}/js
 resources_version: 1.0.0
 
 
