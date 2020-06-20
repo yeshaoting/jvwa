@@ -3,16 +3,17 @@ package cn.yeshaoting.jvwa;
 import cn.yeshaoting.jvwa.util.interceptor.EnvironmentInterceptor;
 import cn.yeshaoting.jvwa.util.interceptor.LoginInterceptor;
 import cn.yeshaoting.jvwa.util.interceptor.StageInterceptor;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Priority;
+import java.util.List;
 
 /*
     description:
@@ -22,16 +23,37 @@ import javax.annotation.Priority;
 @Slf4j
 @Configuration(value = "jvwaConfig}")
 @Priority(Ordered.HIGHEST_PRECEDENCE)
-public class JVWAConfiguration {
-//    extends WebMvcConfigurationSupport {
+public class JVWAConfiguration implements WebMvcConfigurer {
 
+    @Autowired
+    private EnvironmentInterceptor environmentInterceptor;
+    @Autowired
+    private LoginInterceptor loginInterceptor;
+    @Autowired
+    private StageInterceptor stageInterceptor;
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor());
-//        registry.addInterceptor(new StageInterceptor());
-//        registry.addWebRequestInterceptor(new EnvironmentInterceptor()).addPathPatterns("/**").order(0);
-//    }
+    @Bean
+    public EnvironmentInterceptor initEnvironmentInterceptor() {
+        return new EnvironmentInterceptor();
+    }
+
+    @Bean
+    public LoginInterceptor initLoginInterceptor() {
+        return new LoginInterceptor();
+    }
+
+    @Bean
+    public StageInterceptor initStageInterceptor() {
+        return new StageInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        List<String> staticPaths = Lists.newArrayList("/resources/**", "/js/**", "/css/**", "/img/**");
+        registry.addInterceptor(environmentInterceptor).excludePathPatterns(staticPaths);
+        registry.addInterceptor(loginInterceptor).excludePathPatterns(staticPaths);
+        registry.addInterceptor(stageInterceptor).excludePathPatterns(staticPaths);
+    }
 
 //    @Bean
 //    public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {

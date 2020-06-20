@@ -22,25 +22,25 @@
 </script>
 
 <!-- bootstrap -->
-<link type="text/css" rel="stylesheet" href="${scripts_path}/bootstrap/css/bootstrap.css?version=${resources_version}" />
-<link type="text/css" rel="stylesheet" href="${scripts_path}/bootstrap/css/bootstrap-theme.css?version=${resources_version}" />
+<link type="text/css" rel="stylesheet" href="${resources_path}/js/bootstrap/css/bootstrap.css?version=${resources_version}" />
+<link type="text/css" rel="stylesheet" href="${resources_path}/js/bootstrap/css/bootstrap-theme.css?version=${resources_version}" />
 <!-- Font awesome icon -->
-<link type="text/css" rel="stylesheet" href="${styles_path}/font-awesome/css/font-awesome.css?version=${resources_version}" />
+<link type="text/css" rel="stylesheet" href="${resources_path}/css/font-awesome/css/font-awesome.css?version=${resources_version}" />
 <!--[if IE 7]>
-  <link type="text/css" rel="stylesheet" href="${static_path}/font-awesome/css/font-awesome-ie7.css?version=${resources_version}" />
+  <link type="text/css" rel="stylesheet" href="${resources_path}/css/font-awesome/css/font-awesome-ie7.css?version=${resources_version}" />
   <![endif]-->
 
 <!-- HTML5 Support for IE -->
 <!--[if lt IE 9]>
-  <script src="${scripts_path}/html5shim.js?version=${resources_version}"></script>
+  <script src="${resources_path}/js/html5shim.js?version=${resources_version}"></script>
   <![endif]-->
 
 <!-- Main stylesheet -->
-<link rel="stylesheet" href="${styles_path}/style.css?version=${resources_version}">
-<link rel="stylesheet" href="${styles_path}/main.css?version=${resources_version}">
+<link rel="stylesheet" href="${resources_path}/css/style.css?version=${resources_version}">
+<link rel="stylesheet" href="${resources_path}/css/main.css?version=${resources_version}">
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="${images_path}/favicon.ico?version=${resources_version}">
+<link rel="shortcut icon" href="${resources_path}/img/favicon.ico?version=${resources_version}">
 </head>
 
 <body>
@@ -110,14 +110,14 @@
   </div>
 
   <!-- jquery -->
-  <script type="text/javascript" src="${scripts_path}/jquery/jquery.js?version=${resources_version}"></script>
+  <script type="text/javascript" src="${resources_path}/js/jquery/jquery.js?version=${resources_version}"></script>
   <!-- bootstrap -->
-  <script type="text/javascript" src="${scripts_path}/bootstrap/js/bootstrap.js?version=${resources_version}"></script>
+  <script type="text/javascript" src="${resources_path}/js/bootstrap/js/bootstrap.js?version=${resources_version}"></script>
   <!-- noty -->
-  <script type="text/javascript" src="${scripts_path}/noty/packaged/jquery.noty.packaged.js?version=${resources_version}"></script>
+  <script type="text/javascript" src="${resources_path}/js/noty/packaged/jquery.noty.packaged.js?version=${resources_version}"></script>
   <!-- custom utils -->
-  <script type="text/javascript" src="${scripts_path}/notify.js?version=${resources_version}"></script>
+  <script type="text/javascript" src="${resources_path}/js/notify.js?version=${resources_version}"></script>
   <!-- login -->
-  <script type="text/javascript" src="${scripts_path}/login.js?version=${resources_version}"></script>
+  <script type="text/javascript" src="${resources_path}/js/login.js?version=${resources_version}"></script>
 </body>
 </html>
