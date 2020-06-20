@@ -1,5 +1,6 @@
 package cn.yeshaoting.jvwa.mapper;
 
+import cn.yeshaoting.jvwa.entity.User;
 import org.apache.ibatis.annotations.*;
 
 /**

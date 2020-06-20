@@ -1,4 +1,4 @@
-package cn.yeshaoting.jvwa.mapper;
+package cn.yeshaoting.jvwa.entity;
 
 import lombok.Getter;
 import lombok.Setter;
