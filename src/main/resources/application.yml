@@ -37,9 +37,10 @@ file:
 
 max_stage: 8
 
-mapper:
-  identity: MYSQL
+mapper.identity: MYSQL
 mybatis:
-  mapper-locations: classpath*:mapper/*.xml
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 

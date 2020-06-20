@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="keywords" content="JVWA" />
+<meta name="author" content="叶绍亭(yeshaoting)" />
 <meta name="description" content="Java Vulnerable Web Application" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
